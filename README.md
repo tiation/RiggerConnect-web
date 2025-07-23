@@ -42,6 +42,11 @@ As a **ChaseWhiteRabbit NGO Initiative**, this project adheres to:
 - ✅ **Worker empowerment focus**
 - ✅ **DevOps best practices with CI/CD**
 
+## 📸 Platform Preview
+
+![RiggerConnect Platform Screenshot](screenshot.png)
+*RiggerConnect web platform showing the main interface for rigging jobs and professional networking in Western Australia*
+
 ## 🎯 Mission Statement
 
 RiggerConnect is a cutting-edge social networking and career development platform designed specifically for riggers in the construction, oil & gas, and industrial sectors. As part of **ChaseWhiteRabbit NGO's** mission to empower blue-collar workers with ethical technology and opportunity, we bridge the gap between traditional rigging work and modern digital networking.
