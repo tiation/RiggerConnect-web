@@ -7,7 +7,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "security:audit": "npm audit --audit-level moderate"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",
