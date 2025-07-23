@@ -1,102 +1,159 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
+      {/* Header */}
+      <header className="bg-white dark:bg-gray-900 shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                RiggerConnect
+              </h1>
+              <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">WA</span>
+            </div>
+            <nav className="flex space-x-4">
+              <Link href="/jobs" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 transition-colors">
+                Find Jobs
+              </Link>
+              <Link href="/post-job" className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                Post Job
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
+            Western Australia's
+            <span className="block text-orange-600 dark:text-orange-400">
+              Rigging Network
+            </span>
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
+            Connect skilled Riggers, Doggers, and Crane Operators with construction, mining, and resources projects across Western Australia. Quick, efficient, and professional.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/register" className="bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-700 transition-colors shadow-lg">
+              Register as Worker
+            </Link>
+            <Link href="/business" className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg">
+              Business Solutions
+            </Link>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">500+</h3>
+            <p className="text-gray-600 dark:text-gray-300">Active Workers</p>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">150+</h3>
+            <p className="text-gray-600 dark:text-gray-300">Trusted Businesses</p>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">2,000+</h3>
+            <p className="text-gray-600 dark:text-gray-300">Jobs Completed</p>
+          </div>
+        </div>
+
+        {/* Services */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Riggers</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Certified riggers for complex lifting operations, structural work, and equipment installation.
+            </p>
+            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
+              <li>• Basic to Advanced Rigging</li>
+              <li>• Structural Steel</li>
+              <li>• Heavy Machinery</li>
+            </ul>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Doggers</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Experienced doggers for safe lifting operations and crane coordination.
+            </p>
+            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
+              <li>• Crane Coordination</li>
+              <li>• Load Assessment</li>
+              <li>• Safety Supervision</li>
+            </ul>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Crane Operators</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Licensed crane operators for all types of mobile and tower cranes.
+            </p>
+            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
+              <li>• Mobile Cranes</li>
+              <li>• Tower Cranes</li>
+              <li>• All Terrain Cranes</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* ChaseWhiteRabbit NGO Section */}
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-8 rounded-xl shadow-lg mb-16">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold mb-4">Supporting ChaseWhiteRabbit NGO</h3>
+            <p className="text-lg mb-6 max-w-3xl mx-auto">
+              Every job posted and placement made through RiggerConnect helps fund important community work. 
+              Our platform is owned and operated by industry professionals, reinvesting profits into meaningful causes.
+            </p>
+            <Link href="/about" className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+              Learn More About Our Mission
+            </Link>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-bold mb-4 text-orange-400">RiggerConnect WA</h3>
+              <p className="text-gray-300 text-sm">
+                Connecting Western Australia's construction, mining, and resources industry with skilled rigging professionals.
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">For Workers</h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><Link href="/register" className="hover:text-orange-400">Register</Link></li>
+                <li><Link href="/jobs" className="hover:text-orange-400">Browse Jobs</Link></li>
+                <li><Link href="/profile" className="hover:text-orange-400">Manage Profile</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">For Businesses</h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><Link href="/business" className="hover:text-orange-400">Business Account</Link></li>
+                <li><Link href="/post-job" className="hover:text-orange-400">Post Job</Link></li>
+                <li><Link href="/pricing" className="hover:text-orange-400">Pricing</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><Link href="/safety" className="hover:text-orange-400">Safety Standards</Link></li>
+                <li><Link href="/compliance" className="hover:text-orange-400">Compliance</Link></li>
+                <li><Link href="/contact" className="hover:text-orange-400">Contact Us</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+            <p>© 2024 RiggerConnect WA. Supporting ChaseWhiteRabbit NGO. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
   );
