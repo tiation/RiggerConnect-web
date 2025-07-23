@@ -96,8 +96,18 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 - ✅ **Infrastructure as Code**: Terraform configurations
 - ✅ **Container Security**: Regular vulnerability scanning
 - ✅ **Blue-Green Deployments**: Zero-downtime releases
-- ✅ **Health Monitoring**: 24/7 system monitoring
+- ✅ **Health Monitoring**: 24/7 system monitoring with Grafana
 - ✅ **Backup Strategy**: Multi-region data redundancy
+- ✅ **CI/CD Pipeline**: GitLab CI/CD with automated testing and deployment
+- ✅ **Docker Containerization**: Multi-stage builds with security hardening
+- ✅ **Kubernetes Orchestration**: Helm charts for production deployment
+
+### Deployment Infrastructure
+- **Primary VPS**: docker.sxc.codes (145.223.22.7) - CI/CD runner and container build host
+- **Helm Registry**: helm.sxc.codes (145.223.21.248) - Kubernetes deployment manager
+- **Monitoring**: grafana.sxc.codes (153.92.214.1) - Observability and alerts
+- **Database**: supabase.sxc.codes (93.127.167.157) - Backend as a Service
+- **Notification Alerts**: Configured for tiatheone@protonmail.com, garrett@sxc.codes, garrett.dillman@gmail.com
 
 ## 📚 Documentation
 
