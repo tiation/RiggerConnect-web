@@ -1,170 +1,87 @@
-# Contributing to RiggerConnect Web
+# Contributing to Rigger Ecosystem
 
-## Welcome
-
-Thank you for your interest in contributing to RiggerConnect Web, part of the ChaseWhiteRabbit NGO's Rigger ecosystem. We welcome contributions that align with our mission of ethical development and community empowerment.
+## Overview
+Thank you for considering contributing to the Rigger Ecosystem! Your contributions help us improve and maintain an ethical, inclusive, and robust set of tools and applications. We appreciate your efforts in fostering a vibrant and innovative community.
 
 ## Code of Conduct
-
-By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md). Please read it before contributing.
+By participating in this project, you agree to abide by our Code of Conduct, which can be found in the [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) file.
 
 ## Getting Started
 
-### Prerequisites
+### Repository Structure
+Familiarize yourself with the following folders:
 
-- Node.js 18+ and npm
-- Git configured with SSH for tiation-repos
-- Docker for containerized development
-- Basic understanding of React/Next.js
+- **docs/**: Contains all documentation, including architecture, API, deployment, and development guides.
+- **src/**: Core application and library source code.
+- **tests/**: Unit and integration tests.
+- **assets/**: Project assets.
 
-### Development Setup
+### Environment Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone git@github.com:tiaastor/RiggerConnect-web.git
-   cd RiggerConnect-web
-   ```
+1. **Clone your repository**:
+```sh
+$ git clone git@github.com:tiation-repos/{repository-name}.git
+$ cd {repository-name}
+```
+2. **Install Dependencies**:
+```sh
+$ npm install
+```
+3. **Run Tests**:
+```sh
+$ npm test
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+## How to Contribute
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
+### Reporting Bugs
 
-4. **Start development server**
-   ```bash
-   npm run dev
-   ```
+Please check the existing issues before submitting a bug report. When submitting a report, include:
 
-## Development Workflow
+- A clear, descriptive title
+- Detailed reproduction steps
+- Expected and actual results
 
-### Branch Strategy
+### Suggesting Enhancements
 
-- `main` - Production-ready code, protected branch
-- `develop` - Integration branch for features
-- `feature/feature-name` - Feature development branches
-- `hotfix/issue-description` - Emergency fixes
+- **Use the Issue Tracker**: Suggestions should be submitted as issues in the repository.
+- **Provide Context**: Explain the enhancement and its benefits.
 
-### Making Changes
+### Code Contributions
 
-1. **Create a feature branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+1. **Fork the Repository**
+2. **Create a Feature Branch**:
+```sh
+$ git checkout -b feature/{feature-name}
+```
+3. **Commit Changes**:
+```sh
+$ git commit -m 'Add new feature'
+```
+4. **Push to Your Fork**:
+```sh
+$ git push origin feature/{feature-name}
+```
+5. **Submit a Pull Request**
 
-2. **Make your changes**
-   - Follow existing code style and patterns
-   - Write/update tests for new functionality
-   - Update documentation as needed
+### Pull Request Process
 
-3. **Test your changes**
-   ```bash
-   npm run test
-   npm run build
-   npm run lint
-   ```
+- Ensure all tests pass.
+- Follow coding standards and guidelines.
+- Provide a descriptive title and summary for the pull request.
+- Link relevant issues or discussions if applicable.
 
-4. **Commit your changes**
-   ```bash
-   git add .
-   git commit -m "feat: add your feature description"
-   ```
-   
-   Use conventional commit messages:
-   - `feat:` - New features
-   - `fix:` - Bug fixes
-   - `docs:` - Documentation changes
-   - `style:` - Code style changes
-   - `refactor:` - Code refactoring
-   - `test:` - Test additions/modifications
-   - `chore:` - Maintenance tasks
+### Style Guides
 
-5. **Push and create a Pull Request**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
+- **Coding Standards**: Follow the [JavaScript Style Guide](https://standardjs.com/).
+- **Documentation**: Use clear, concise language.
 
-## Code Standards
+## Acknowledgements
+Your help is critical to the success of our projects. Thank you to all our contributors, users, and supporters!
 
-### TypeScript/JavaScript
-
-- Use TypeScript for all new code
-- Follow ESLint and Prettier configurations
-- Maintain 80%+ test coverage
-- Document complex functions with JSDoc
-
-### React/Next.js
-
-- Use functional components with hooks
-- Implement proper error boundaries
-- Follow accessibility (a11y) best practices
-- Use CSS modules or styled-components
-
-### Testing
-
-- Write unit tests for utilities and components
-- Include integration tests for critical paths
-- Use Jest and React Testing Library
-- Mock external dependencies appropriately
-
-## CI/CD Integration
-
-Our CI/CD pipeline runs on:
-- **Primary**: GitLab CI (gitlab.sxc.codes)
-- **Secondary**: GitHub Actions
-- **Deployment**: Docker containers via docker.sxc.codes
-
-### Pipeline Stages
-
-1. **Lint & Format** - Code quality checks
-2. **Test** - Unit and integration tests
-3. **Build** - Production build verification
-4. **Security** - Vulnerability scanning
-5. **Deploy** - Automated deployment to staging/production
-
-## Documentation
-
-- Update README.md for user-facing changes
-- Add/update JSDoc for new functions
-- Include examples in documentation
-- Update CHANGELOG.md with release notes
-
-## Security
-
-- Never commit secrets or API keys
-- Use environment variables for configuration
-- Follow OWASP security guidelines
-- Report security issues privately via [SECURITY.md](SECURITY.md)
-
-## ChaseWhiteRabbit NGO Values
-
-All contributions should align with our NGO's values:
-
-- **Ethical Development**: Code that benefits society
-- **Transparency**: Open and documented processes
-- **Inclusivity**: Welcoming to all skill levels and backgrounds
-- **Quality**: Enterprise-grade, maintainable solutions
-
-## Getting Help
-
-- **Documentation**: Check the `docs/` directory
-- **Issues**: Search existing issues before creating new ones
-- **Discussions**: Use GitHub Discussions for questions
-- **Contact**: Reach out to maintainers for urgent matters
-
-## Recognition
-
-Contributors are recognized in:
-- CHANGELOG.md for significant contributions
-- GitHub contributor graphs
-- Annual NGO reports (with permission)
-
-Thank you for contributing to the Rigger ecosystem and supporting ChaseWhiteRabbit NGO's mission!
+**Primary Contact for Contributions**: tiatheone@protonmail.com
+**Guidance and Support**: garrett@sxc.codes or garrett.dillman@gmail.com
 
 ---
-*ChaseWhiteRabbit NGO - RiggerConnect Web Team*
+
+This document is subject to updates to reflect the latest practices and changes. Thank you for contributing to the Rigger Ecosystem!
