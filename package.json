@@ -2,7 +2,7 @@
   "name": "riggerconnect-web",
   "version": "1.0.0",
   "private": true,
-  "description": "RiggerConnect Web Application - Social networking and career development platform for riggers",
+  "description": "RiggerConnect - Job advertising platform for Riggers, Doggers and Crane Operators in Western Australia. Supporting ChaseWhiteRabbit NGO.",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
