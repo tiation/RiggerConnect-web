@@ -22,6 +22,26 @@
 
 </div>
 
+## 📍 Repository Location & Structure
+
+**Current Location**: `/Users/tiaastor/Github/tiation-repos/RiggerConnect-web/`
+
+This repository is part of the **Tiation Enterprise Repository Structure**, specifically designed to house **ChaseWhiteRabbit NGO's** technology initiatives following enterprise-grade development practices. 
+
+### 🏗️ Enterprise Ecosystem
+- **Repository Collection**: [Enterprise Repository Index](../ENTERPRISE_REPOSITORY_INDEX.md)
+- **Related Projects**: [RiggerHub-web](../RiggerHub-web/), [RiggerBackend](../RiggerBackend/), [RiggerShared](../RiggerShared/)
+- **Mobile Apps**: [RiggerConnect-android](../RiggerConnect-android/), [RiggerConnect-ios](../RiggerConnect-ios/)
+- **Infrastructure**: Hosted on Hostinger VPS cluster with Kubernetes orchestration
+
+### 🌟 NGO Integration
+As a **ChaseWhiteRabbit NGO Initiative**, this project adheres to:
+- ✅ **Enterprise-grade development practices**
+- ✅ **Ethical technology standards**
+- ✅ **Open-source commitment (GPL v3)**
+- ✅ **Worker empowerment focus**
+- ✅ **DevOps best practices with CI/CD**
+
 ## 🎯 Mission Statement
 
 RiggerConnect is a cutting-edge social networking and career development platform designed specifically for riggers in the construction, oil & gas, and industrial sectors. As part of **ChaseWhiteRabbit NGO's** mission to empower blue-collar workers with ethical technology and opportunity, we bridge the gap between traditional rigging work and modern digital networking.
