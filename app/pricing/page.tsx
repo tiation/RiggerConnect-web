@@ -167,5 +167,3 @@ export default function Pricing() {
   );
 }
 
-export default Pricing;
-
