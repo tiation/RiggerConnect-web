@@ -1,5 +1,269 @@
 <div align="center">
 
+# 🌐 RiggerConnect Web Platform
+
+### **A ChaseWhiteRabbit NGO Initiative**
+*Ethical Web Platform for Professional Networking*
+
+[![Build Status](https://github.com/chasewhiterabbit/riggerconnect-web/workflows/CI/badge.svg)](https://github.com/chasewhiterabbit/riggerconnect-web/actions)
+[![Security Rating](https://img.shields.io/badge/security-A+-brightgreen)](docs/security/)
+[![Ethics Compliance](https://img.shields.io/badge/ethics-compliant-blue)](docs/ethics/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+```ascii
+    🌐 CONNECTING PROFESSIONALS ETHICALLY 🌐
+    ╔════════════════════════════════════════════╗
+    ║  NETWORKING • LEARNING • CAREER GROWTH    ║
+    ╚════════════════════════════════════════════╝
+    🤝 CONNECT • 📚 LEARN • 🎯 GROW • 🛡️ SAFE • 🌟 ETHICAL
+```
+
+</div>
+
+## 🎯 Platform Mission
+
+RiggerConnect Web Platform serves as the professional networking hub for the construction and rigging industry. Built with **ChaseWhiteRabbit NGO's** commitment to ethical technology, our platform empowers workers through meaningful connections, continuous learning, and career advancement opportunities.
+
+## 📍 Repository Location & Structure
+
+**Current Location**: `/Users/tiaastor/Github/tiation-repos/RiggerConnect-web/`
+
+This repository is part of the **Tiation Enterprise Repository Structure**, specifically designed to house **ChaseWhiteRabbit NGO's** technology initiatives following enterprise-grade development practices.
+
+### 🏗️ Enterprise Ecosystem
+- **Repository Collection**: [Enterprise Repository Index](../ENTERPRISE_REPOSITORY_INDEX.md)
+- **Mobile Apps**: [RiggerConnect-android](../RiggerConnect-android/), [RiggerConnect-ios](../RiggerConnect-ios/)
+- **Hub Applications**: [RiggerHub-web](../RiggerHub-web/), [RiggerHub-android](../RiggerHub-android/), [RiggerHub-ios](../RiggerHub-ios/)
+- **Backend Services**: [RiggerBackend](../RiggerBackend/)
+- **Shared Libraries**: [RiggerShared](../RiggerShared/)
+
+## 🔗 Related Repositories
+
+### Core Platform Components
+
+| Repository | Platform | Description | GitHub SSH URL |
+|------------|----------|-------------|----------------|
+| **RiggerBackend** | API | Core backend services and APIs | `git@github.com:tiation/RiggerBackend.git` |
+| **RiggerConnect-android** | Android | Mobile networking app | `git@github.com:tiation/RiggerConnect-android.git` |
+| **RiggerConnect-ios** | iOS | Mobile networking app | `git@github.com:tiation/RiggerConnect-ios.git` |
+| **RiggerHub-web** | Web | Operations management hub | `git@github.com:tiation/RiggerHub-web.git` |
+| **RiggerHub-android** | Android | Mobile operations hub | `git@github.com:tiation/RiggerHub-android.git` |
+| **RiggerHub-ios** | iOS | Mobile operations hub | `git@github.com:tiation/RiggerHub-ios.git` |
+| **RiggerShared** | Multi-platform | Shared libraries and components | `git@github.com:tiation/RiggerShared.git` |
+
+### Enterprise Integration Architecture
+
+```mermaid
+graph TB
+    RB[RiggerBackend<br/>Core API Services] --> RCW[RiggerConnect-web]
+    RB --> RCA[RiggerConnect-android]
+    RB --> RCI[RiggerConnect-ios]
+    RB --> RHW[RiggerHub-web]
+    RB --> RHA[RiggerHub-android]
+    RB --> RHI[RiggerHub-ios]
+    RS[RiggerShared<br/>Common Libraries] --> RCW
+    RS --> RCA
+    RS --> RCI
+    RS --> RHW
+    RS --> RHA
+    RS --> RHI
+    
+    style RCW fill:#00FFFF,color:#000
+    style RB fill:#FF00FF,color:#000
+    style RS fill:#00FF00,color:#000
+```
+
+### ChaseWhiteRabbit NGO License Framework
+
+All repositories in the Rigger ecosystem are licensed under **GPL v3**, ensuring:
+- ✅ **Open Source Transparency**: Complete code visibility and community auditing
+- ✅ **Ethical Technology Standards**: Algorithmic fairness and bias prevention
+- ✅ **Worker Empowerment Focus**: Technology serving users, not corporate profits
+- ✅ **Community Ownership**: Improvements benefit the entire rigger community
+- ✅ **Corporate Responsibility**: Commercial use must remain open and accessible
+
+### 🌟 NGO Integration
+As a **ChaseWhiteRabbit NGO Initiative**, this project adheres to:
+- ✅ **Enterprise-grade development practices**
+- ✅ **Ethical technology standards**
+- ✅ **Worker empowerment focus**
+- ✅ **DevOps best practices with CI/CD**
+- ✅ **Open development transparency**
+
+## 🌟 Core Features
+
+### Professional Networking
+- 🤝 **Industry Connections** - Connect with peers, mentors, and industry leaders
+- 💼 **Career Opportunities** - Discover job openings and career advancement paths
+- 🏆 **Professional Recognition** - Showcase skills, certifications, and achievements
+- 🎯 **Smart Matching** - AI-powered connection recommendations
+
+### Learning & Development
+- 📚 **Resource Library** - Access to industry best practices and documentation
+- 🎓 **Certification Tracking** - Monitor and display professional certifications
+- 📖 **Knowledge Sharing** - Community-driven content and discussions
+- 🧠 **Skill Assessment** - Evaluate and improve professional competencies
+
+### Community Features
+- 🗣️ **Discussion Forums** - Industry-specific conversation spaces
+- 📅 **Event Management** - Industry events, workshops, and networking sessions
+- 🔔 **Safety Alerts** - Real-time safety updates and notifications
+- 📊 **Industry Insights** - Market trends and professional analytics
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ LTS
+- npm or yarn package manager
+- Git for version control
+
+### Installation
+```bash
+# Clone the repository
+git clone git@github.com:chasewhiterabbit/riggerconnect-web.git
+cd riggerconnect-web
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your configuration
+
+# Start development server
+npm run dev
+
+# Open browser to http://localhost:3000
+```
+
+### RiggerShared Integration
+```bash
+# Install RiggerShared dependencies
+npm install @rigger/shared-components @rigger/shared-utils
+
+# Import shared components
+import { Header, Footer } from '@rigger/shared-components';
+import { apiUtils, authUtils } from '@rigger/shared-utils';
+```
+
+## 🏗️ Architecture Overview
+
+### Technology Stack
+- **Frontend Framework**: Next.js 14 with React 18
+- **Styling**: Tailwind CSS with custom design system
+- **State Management**: Redux Toolkit with RTK Query
+- **Authentication**: NextAuth.js with JWT tokens
+- **Database Integration**: Supabase client for real-time features
+- **Deployment**: Vercel with enterprise hosting
+
+### AI Agents Integration
+- **Smart Recommendations**: ML-powered connection suggestions
+- **Content Moderation**: AI-assisted community management
+- **Career Guidance**: Intelligent career path recommendations
+- **Bias Prevention**: Regular algorithmic auditing for fairness
+
+### Microservices Architecture
+- **User Service**: Profile and authentication management
+- **Connection Service**: Professional networking features
+- **Content Service**: Posts, discussions, and resource management
+- **Event Service**: Event management and scheduling
+- **Notification Service**: Real-time alerts and updates
+
+## 📚 Documentation
+
+| Resource | Description |
+|----------|-------------|
+| [🚀 Setup Guide](docs/setup/) | Development environment setup |
+| [🏗️ Architecture](docs/architecture/) | System design and patterns |
+| [🚀 Deployment](docs/deployment/) | Production deployment guide |
+| [🔧 Troubleshooting](docs/troubleshooting/) | Common issues and solutions |
+
+## 🔐 Security & Privacy
+
+### Security Features
+- **JWT Authentication**: Secure token-based authentication
+- **CSRF Protection**: Cross-site request forgery prevention
+- **Content Security Policy**: XSS attack prevention
+- **Rate Limiting**: API abuse prevention
+- **Input Sanitization**: XSS and injection attack prevention
+
+### Ethical AI Standards
+- **Bias Prevention**: Regular algorithmic auditing
+- **Explainable Decisions**: Transparent recommendation logic
+- **Human Oversight**: Manual review capabilities
+- **Privacy by Design**: Data minimization and user control
+
+## 🤝 Contributing
+
+### Development Guidelines
+1. Follow the [ChaseWhiteRabbit NGO Code of Conduct](docs/CODE_OF_CONDUCT.md)
+2. Use the established [coding standards](docs/setup/coding-standards.md)
+3. Include tests for all new features
+4. Update documentation for changes
+5. Ensure accessibility compliance
+
+### Pull Request Process
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes with tests
+4. Update documentation
+5. Submit pull request with detailed description
+
+## 🌍 Social Impact
+
+Supporting ChaseWhiteRabbit NGO's mission through:
+- **Professional Development**: Empowering workers through networking and learning
+- **Safety Promotion**: Real-time safety alerts and best practice sharing
+- **Career Advancement**: Equal opportunity access to job opportunities
+- **Community Building**: Fostering supportive professional relationships
+- **Knowledge Sharing**: Democratic access to industry expertise
+
+## 📞 Support & Contact
+
+### Technical Support
+- 📧 **Web Support**: web-support@chasewhiterabbit.org
+- 🔒 **Security Issues**: security@chasewhiterabbit.org
+- 📖 **Documentation**: docs@chasewhiterabbit.org
+- ⚖️ **Ethics Concerns**: ethics@chasewhiterabbit.org
+
+### ChaseWhiteRabbit NGO
+- 🌐 **Website**: [chasewhiterabbit.org](https://chasewhiterabbit.org)
+- 📧 **Contact**: info@chasewhiterabbit.org
+- 🐦 **Twitter**: [@ChaseWhiteRabbitNGO](https://twitter.com/ChaseWhiteRabbitNGO)
+
+## 📜 License
+
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+
+### Open Source Commitment
+As a **ChaseWhiteRabbit NGO** initiative, we believe in:
+- **Transparency**: All code is open and auditable
+- **Community Ownership**: Improvements benefit the entire community
+- **Ethical Technology**: No vendor lock-in or proprietary restrictions
+- **Worker Empowerment**: Technology that serves users, not profits
+
+---
+
+<div align="center">
+
+### 🌐 Built for Connection, Powered by Ethics 🌐
+
+**ChaseWhiteRabbit NGO** | *Professional Networking for Social Good*
+
+```ascii
+🤝 ETHICAL NETWORKING • WORKER EMPOWERMENT • PROFESSIONAL GROWTH 🤝
+```
+
+[![ChaseWhiteRabbit NGO](https://img.shields.io/badge/ChaseWhiteRabbit-NGO-orange)](https://chasewhiterabbit.org)
+[![Ethical Platform](https://img.shields.io/badge/Platform-Ethical-green)](docs/ethics/)
+[![Open Source](https://img.shields.io/badge/Open%20Source-Always-blue)](#)
+
+*"The strongest professional networks are built on trust, ethics, and mutual empowerment."*
+
+</div>
+
+<div align="center">
+
 # 🏗️ RiggerConnect Web Application
 
 ### **A ChaseWhiteRabbit NGO Initiative**
@@ -347,7 +611,17 @@ As an ethical NGO initiative, we believe in:
 
 ---
 
-**© 2025 ChaseWhiteRabbit NGO | Tiation Enterprise** 
+**🏗️ RiggerConnect Platform - ChaseWhiteRabbit NGO Initiative 🏗️**
+
+*Enterprise-grade technology empowering construction industry professionals*
+
+[![Tiation Platform](https://img.shields.io/badge/🔮_Platform-Tiation-00FFFF?style=for-the-badge&labelColor=0A0A0A)](https://tiation.github.io/)
+[![Rigger Connect](https://img.shields.io/badge/🏗️_Rigger-Connect-FF00FF?style=for-the-badge&labelColor=0A0A0A)](https://tiation.github.io/)
+[![ChaseWhiteRabbit NGO](https://img.shields.io/badge/🌟_NGO-Mission-00FFFF?style=for-the-badge&labelColor=0A0A0A)](https://tiation.github.io/)
+
+**Ethical • Enterprise • Empowering**
+
+**[Discover More Projects →](https://tiation.github.io/)**
 
 *"Technology should lift up workers, not replace them."*
 
