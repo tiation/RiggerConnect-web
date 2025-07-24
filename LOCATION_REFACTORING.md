@@ -6,7 +6,7 @@ This document outlines the implementation of **Step 4: Refactor job posting to r
 
 ## Key Changes Implemented
 
-### 1. PostJob Component Creation (`src/components/PostJob.tsx`)
+### 1. PostJob Component Creation (`app/post-job/page.tsx`)
 
 **Features Implemented:**
 - ✅ **Auto-population from user profile coordinates** on component mount
@@ -53,7 +53,7 @@ location_source TEXT CHECK (location_source IN ('user_profile', 'manual', 'detec
 - ✅ **Coordinate indexing** for optimal query performance
 - ✅ **Comprehensive RLS policies** for secure access control
 
-### 3. Custom Hook (`src/hooks/use-job-posting.ts`)
+### 3. Custom Hook (`lib/hooks/use-job-posting.ts`)
 
 **Functionality:**
 - ✅ **Complete CRUD operations** for job postings
@@ -61,7 +61,7 @@ location_source TEXT CHECK (location_source IN ('user_profile', 'manual', 'detec
 - ✅ **Distance-based job search** using coordinates
 - ✅ **Status management** (draft, published, archived)
 
-### 4. Demo Implementation (`src/pages/PostJobDemo.tsx`)
+### 4. Demo Implementation (`app/demo/post-job/page.tsx`)
 
 **Demonstration Features:**
 - ✅ **Live location auto-population** example

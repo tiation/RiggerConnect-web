@@ -1,6 +1,79 @@
-import Link from "next/link";
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useAuth } from '@/components/auth/auth-provider'
 
 export default function Register() {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    phone: '',
+    location: '',
+    role: 'worker' as 'worker' | 'employer'
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  
+  const { signUp } = useAuth()
+  const router = useRouter()
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess('')
+
+    // Validation
+    if (!formData.email || !formData.password || !formData.firstName || !formData.lastName) {
+      setError('Please fill in all required fields')
+      setLoading(false)
+      return
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match')
+      setLoading(false)
+      return
+    }
+
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long')
+      setLoading(false)
+      return
+    }
+
+    const { error } = await signUp(formData.email, formData.password, {
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      phone: formData.phone,
+      location: formData.location,
+      role: formData.role
+    })
+    
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+    } else {
+      setSuccess('Account created successfully! Please check your email to verify your account.')
+      setTimeout(() => {
+        router.push('/auth/login')
+      }, 3000)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -17,8 +90,8 @@ export default function Register() {
               <Link href="/jobs" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 transition-colors">
                 Find Jobs
               </Link>
-              <Link href="/post-job" className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
-                Post Job
+              <Link href="/auth/login" className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                Sign In
               </Link>
             </nav>
           </div>
@@ -60,7 +133,19 @@ export default function Register() {
 
         {/* Registration Form */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-8">
-          <form className="space-y-6">
+          {error && (
+            <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded relative">
+              <span className="block sm:inline">{error}</span>
+            </div>
+          )}
+          
+          {success && (
+            <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded relative">
+              <span className="block sm:inline">{success}</span>
+            </div>
+          )}
+          
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Personal Information */}
             <div className="border-b border-gray-200 dark:border-gray-700 pb-6">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">

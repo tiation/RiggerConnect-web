@@ -60,13 +60,83 @@ RiggerConnect is a cutting-edge social networking and career development platfor
 
 ## 🚀 Technology Stack
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) featuring:
+This is a [Next.js](https://nextjs.org) project built with the modern **App Router** architecture, featuring:
 
-- **Next.js 15.4.2** - React framework with App Router
+- **Next.js 15.4.2** - React framework with App Router (unified structure)
 - **React 19.1.0** - Latest React with concurrent features
 - **TypeScript** - Type-safe development
 - **Tailwind CSS 4** - Modern styling framework
 - **Turbopack** - Ultra-fast bundler for development
+- **Supabase** - Backend-as-a-Service with PostgreSQL
+
+## 🚀 Local Development
+
+Follow the steps below to set up the development environment for RiggerConnect-web:
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone git@github.com:chasewhiterabbit/riggerconnect-web.git
+   cd riggerconnect-web
+   ```
+
+2. **Install dependencies**:
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment**:
+
+   ```bash
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+4. **Run the development server**:
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Run tests**:
+
+   ```bash
+   npm test
+   ```
+
+6. **Security audit**:
+
+   ```bash
+   npm run security:audit
+   ```
+
+## 🎯 DevOps Processes
+
+RiggerConnect-web adheres to robust CI/CD best practices:
+
+- **Automated Testing**: Utilizes GitHub Actions for continuous integration, automated testing, and static analysis.
+- **Automated Deployment**: Deployments are managed through GitLab pipelines.
+- **Infrastructure as Code**: Terraform setups ensure consistent and reproducible infrastructure across environments.
+- **Monitoring 6 Logging**: Integrated with Grafana and ELK Stack for real-time monitoring 6 comprehensive log management.
+
+## 🏗️ Project Structure
+```
+RiggerConnect-web/
+├── app/                    # Next.js App Router (unified routing)
+│   ├── page.tsx           # Home page
+│   ├── layout.tsx         # Root layout
+│   ├── jobs/page.tsx      # Jobs listing
+│   ├── post-job/page.tsx  # Job posting form
+│   └── register/page.tsx  # User registration
+├── lib/                   # Shared utilities and services
+│   ├── auth/              # Authentication utilities
+│   ├── services/          # API services
+│   └── supabase/          # Database client configuration
+├── public/                # Static assets
+├── docs/                  # Project documentation
+└── ci/                    # CI/CD configuration
+```
 
 ## 🛠️ Getting Started
 

@@ -7,7 +7,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "./database/migrate.sh migrate",
+    "db:types": "./database/migrate.sh types",
+    "db:validate": "./database/migrate.sh validate",
+    "db:init": "./database/migrate.sh init",
+    "db:backup": "./database/migrate.sh backup"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.10.0",

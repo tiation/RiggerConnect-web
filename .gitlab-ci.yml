@@ -1,10 +1,17 @@
 stages:
+  - validate
   - test
+  - migrate
   - build
   - deploy
 
 variables:
   NODE_ENV: "production"
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:24-dind
 
 cache:
   paths:
@@ -13,22 +20,113 @@ cache:
 before_script:
   - npm install
 
+# Environment validation stage
+validate-environment:
+  stage: validate
+  image: node:18-alpine
+  script:
+    - apk add --no-cache bash
+    - chmod +x ./database/migrate.sh
+    - ./database/migrate.sh validate
+  only:
+    variables:
+      - $NEXT_PUBLIC_SUPABASE_URL
+      - $NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+# Code quality and testing
 lint:
   stage: test
   script:
     - npm run lint
+  artifacts:
+    reports:
+      junit: junit.xml
+    when: always
 
+# Database migration stage
+migrate-database:
+  stage: migrate
+  image: node:18-alpine
+  before_script:
+    - apk add --no-cache bash curl postgresql-client
+    - curl -fsSL https://supabase.com/install.sh | sh
+    - export PATH="$PATH:/root/.local/bin"
+    - npm install
+  script:
+    - chmod +x ./database/migrate.sh
+    - ./database/migrate.sh migrate
+  artifacts:
+    paths:
+      - lib/supabase/database.types.ts
+    expire_in: 1 hour
+  only:
+    variables:
+      - $NEXT_PUBLIC_SUPABASE_URL
+      - $NEXT_PUBLIC_SUPABASE_ANON_KEY
+      - $SUPABASE_SERVICE_ROLE_KEY
+  when: manual
+  allow_failure: false
+
+# Build application
 build:
   stage: build
+  dependencies:
+    - migrate-database
   script:
     - npm run build
   artifacts:
     paths:
       - dist/
+      - .next/
+    expire_in: 1 hour
 
+# Docker build for deployment
 docker-build:
   stage: deploy
+  image: docker:24
+  dependencies:
+    - build
   script:
     - docker build -t riggerconnect-web .
+    - docker tag riggerconnect-web $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker tag riggerconnect-web $CI_REGISTRY_IMAGE:latest
+    # Push to GitLab Container Registry if configured
+    - |
+      if [ "$CI_REGISTRY" ]; then
+        echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+        docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+        docker push $CI_REGISTRY_IMAGE:latest
+      fi
   only:
     - main
+    - develop
+
+# Deploy to staging environment
+deploy-staging:
+  stage: deploy
+  image: docker:24
+  script:
+    - echo "Deploying to staging environment"
+    # Add your staging deployment commands here
+    # Example: kubectl apply -f k8s/staging/
+  environment:
+    name: staging
+    url: https://staging.riggerconnect.com
+  only:
+    - develop
+  when: manual
+
+# Deploy to production environment
+deploy-production:
+  stage: deploy
+  image: docker:24
+  script:
+    - echo "Deploying to production environment"
+    # Add your production deployment commands here
+    # Example: kubectl apply -f k8s/production/
+  environment:
+    name: production
+    url: https://riggerconnect.com
+  only:
+    - main
+  when: manual

@@ -1,0 +1,46 @@
+# Multi-stage Dockerfile for Supabase migrations
+FROM node:18-alpine AS base
+
+# Install system dependencies
+RUN apk add --no-cache \
+    bash \
+    curl \
+    postgresql-client \
+    git
+
+# Install Supabase CLI
+RUN curl -fsSL https://supabase.com/install.sh | sh
+ENV PATH="$PATH:/root/.local/bin"
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install Node dependencies
+RUN npm ci --only=production
+
+# Copy migration files and scripts
+COPY database/ ./database/
+COPY lib/supabase/ ./lib/supabase/
+
+# Make migration script executable
+RUN chmod +x ./database/migrate.sh
+
+# Development stage - includes dev dependencies
+FROM base AS development
+RUN npm ci
+
+# Production stage - optimized for CI/CD
+FROM base AS production
+
+# Set environment
+ENV NODE_ENV=production
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD supabase --version || exit 1
+
+# Default command
+CMD ["./database/migrate.sh", "migrate"]

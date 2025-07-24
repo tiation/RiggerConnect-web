@@ -11,10 +11,11 @@ By participating in this project, you agree to abide by our Code of Conduct, whi
 ### Repository Structure
 Familiarize yourself with the following folders:
 
+- **app/**: Next.js App Router pages and layouts using the new app directory structure.
+- **lib/**: Shared libraries, utilities, and services.
 - **docs/**: Contains all documentation, including architecture, API, deployment, and development guides.
-- **src/**: Core application and library source code.
-- **tests/**: Unit and integration tests.
-- **assets/**: Project assets.
+- **public/**: Static assets served directly by Next.js.
+- **ci/**: CI/CD configuration and scripts.
 
 ### Environment Setup
 
