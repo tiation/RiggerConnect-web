@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove static export for Netlify SSR support
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
-  distDir: 'out',
   images: {
     unoptimized: true
+  },
+  // Add experimental features for better Netlify support
+  experimental: {
+    serverActions: true
   }
 }
 

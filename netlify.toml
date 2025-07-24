@@ -1,9 +1,14 @@
 [build]
-  publish = "out"
+  publish = ".next"
   command = "npm run build"
 
 [build.environment]
   NEXT_TELEMETRY_DISABLED = "1"
+  NODE_VERSION = "18"
+
+# Enable Next.js runtime
+[functions]
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/*"
