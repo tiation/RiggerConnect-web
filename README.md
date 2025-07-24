@@ -314,17 +314,40 @@ As an ethical NGO initiative, we believe in:
 
 <div align="center">
 
-### 🏗️ Built by Riggers, for Riggers 🏗️
+### 🏗️ **ChaseWhiteRabbit NGO Initiative** 🏗️
 
-**ChaseWhiteRabbit NGO** | *Transforming Lives Through Ethical Technology*
+**Transforming Lives Through Ethical Technology**
 
 ```ascii
-🔧 SAFETY FIRST • COMMUNITY ALWAYS • ETHICS FOREVER 🔧
+🔧 ENTERPRISE GRADE • ETHICAL • STRIKING DESIGN 🔧
+    CONNECTING THE BACKBONE OF INDUSTRY
 ```
 
 [![ChaseWhiteRabbit NGO](https://img.shields.io/badge/ChaseWhiteRabbit-NGO-orange)](https://chasewhiterabbit.org)
+[![Enterprise Grade](https://img.shields.io/badge/Enterprise-Grade-blue)](docs/)
 [![Ethical Technology](https://img.shields.io/badge/Technology-Ethical-green)](docs/ethics/)
-[![Blue Collar Pride](https://img.shields.io/badge/Blue%20Collar-Pride-blue)](#)
+[![DevOps Ready](https://img.shields.io/badge/DevOps-Ready-purple)](docs/deployment/)
+
+### 📞 **Support & Contact**
+
+| **Contact Type** | **Email** | **Purpose** |
+|------------------|-----------|-------------|
+| 🔧 Technical Support | tiatheone@protonmail.com | Development & Technical Issues |
+| 🌐 Enterprise Inquiries | garrett@sxc.codes | Business & Infrastructure |
+| 📧 General Support | garrett.dillman@gmail.com | General Questions & Support |
+
+### 🌐 **Infrastructure & Hosting**
+
+**Hostinger VPS Cluster** | **Enterprise-Grade DevOps**
+
+- **🐳 Primary CI/CD**: docker.sxc.codes (145.223.22.7)
+- **⚓ Helm Manager**: helm.sxc.codes (145.223.21.248) 
+- **📊 Monitoring**: grafana.sxc.codes (153.92.214.1)
+- **🗄️ Database**: supabase.sxc.codes (93.127.167.157)
+
+---
+
+**© 2025 ChaseWhiteRabbit NGO | Tiation Enterprise** 
 
 *"Technology should lift up workers, not replace them."*
 
