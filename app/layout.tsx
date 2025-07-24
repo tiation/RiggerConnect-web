@@ -1,9 +1,25 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Rajdhani, Orbitron, Exo_2 } from 'next/font/google'
 import { Metadata } from 'next'
 import { AuthProvider } from '@/components/auth/auth-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const rajdhani = Rajdhani({ 
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-rajdhani'
+})
+
+const orbitron = Orbitron({ 
+  subsets: ['latin'],
+  weight: ['400', '700', '900'],
+  variable: '--font-orbitron'
+})
+
+const exo2 = Exo_2({ 
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-exo2'
+})
 
 export const metadata: Metadata = {
   title: {
@@ -65,10 +81,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full antialiased`}>
+    <html lang="en" className={`h-full ${rajdhani.variable} ${orbitron.variable} ${exo2.variable}`}>
+      <body className="h-full antialiased bg-dark-surface text-foreground font-sans">
+        <div className="floating-shapes"></div>
         <AuthProvider>
-          <div className="min-h-full bg-gray-50 dark:bg-gray-900">
+          <div className="min-h-full relative z-10">
             {children}
           </div>
         </AuthProvider>

@@ -37,10 +37,68 @@ This project adheres to:
 - ✅ **Scalability**: Cloud-native architecture supporting growth
 - ✅ **Maintainability**: Clean code principles and comprehensive testing
 
+## 🚀 Quick Setup Guide
+
+### Local Development Setup
+
+1. **Prerequisites**
+   - Node.js 18+ 
+   - npm or yarn
+   - Git
+   - Docker (optional, for database)
+
+2. **Environment Setup**
+   ```bash
+   # Clone the repository
+   git clone git@github.com:chasewhiterabbit/RiggerConnect-web.git
+   cd RiggerConnect-web
+   
+   # Install dependencies
+   npm install
+   
+   # Set up environment
+   cp .env.example .env.local
+   # Edit .env.local with your configuration
+   ```
+
+3. **Database Setup**
+   ```bash
+   # Initialize database (if using local setup)
+   npm run db:init
+   
+   # Run migrations
+   npm run db:migrate
+   
+   # Generate types
+   npm run db:types
+   ```
+
+4. **Development Server**
+   ```bash
+   # Start development server
+   npm run dev
+   
+   # Run tests
+   npm test
+   
+   # Run E2E tests
+   npm run test:e2e
+   ```
+
+### Docker Development
+
+```bash
+# Build and run with Docker
+docker-compose up --build
+
+# Run database migrations in Docker
+docker-compose exec web npm run db:migrate
+```
+
 ## 🔗 Quick Links
 
-- [Project Repository](https://github.com/chasewhiterabbit/RiggerConnect-web)
-- [Live Application](https://riggerconnect.chasewhiterabbit.org)
+- [Project Repository](https://github.com/chasewhiterab bit/RiggerConnect-web)
+- [Live Application](https://riggerconnect.sxc.codes)
 - [Issue Tracker](https://github.com/chasewhiterabbit/RiggerConnect-web/issues)
 - [Contributing Guidelines](../CONTRIBUTING.md)
 

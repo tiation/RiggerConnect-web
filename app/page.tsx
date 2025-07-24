@@ -1,23 +1,24 @@
 import Link from "next/link";
+import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-darker-surface relative overflow-hidden">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-900 shadow-sm border-b">
+      <header className="bg-dark-surface border-b border-neon-orange/20 shadow-2xl relative z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              <h1 className="text-3xl font-black font-tech text-neon-orange glitch" data-text="RiggerConnect">
                 RiggerConnect
               </h1>
-              <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">WA</span>
+              <span className="ml-3 text-lg font-display font-bold text-neon-blue bg-darker-surface px-2 py-1 rounded border border-neon-blue/30">WA</span>
             </div>
-            <nav className="flex space-x-4">
-              <Link href="/jobs" className="text-gray-600 dark:text-gray-300 hover:text-orange-600 transition-colors">
+            <nav className="flex space-x-6">
+              <Link href="/jobs" className="text-gray-300 hover:text-neon-green transition-all duration-300 font-display font-semibold text-lg transform hover:scale-105">
                 Find Jobs
               </Link>
-              <Link href="/post-job" className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+              <Link href="/post-job" className="bg-gradient-primary text-white px-6 py-3 rounded-lg hover:neon-glow transition-all duration-300 font-display font-bold transform hover:scale-105">
                 Post Job
               </Link>
             </nav>
@@ -26,135 +27,100 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
-            Western Australia's
-            <span className="block text-orange-600 dark:text-orange-400">
-              Rigging Network
-            </span>
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Connect skilled Riggers, Doggers, and Crane Operators with construction, mining, and resources projects across Western Australia. Quick, efficient, and professional.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/register" className="bg-orange-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-700 transition-colors shadow-lg">
-              Register as Worker
-            </Link>
-            <Link href="/business" className="bg-blue-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg">
-              Business Solutions
-            </Link>
+      <main className="relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-8xl font-black font-display text-white mb-8 leading-tight">
+              Western Australia's
+              <span className="block bg-gradient-primary bg-clip-text text-transparent glitch" data-text="RIGGING NETWORK">
+                RIGGING NETWORK
+              </span>
+            </h2>
+            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto font-display font-light leading-relaxed">
+              Connect skilled <span className="text-neon-orange font-semibold">Riggers</span>, <span className="text-neon-blue font-semibold">Doggers</span>, and <span className="text-neon-green font-semibold">Crane Operators</span> with construction, mining, and resources projects across Western Australia.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Link href="/register" className="bg-gradient-primary text-white px-10 py-5 text-xl font-bold font-display rounded-lg hover:neon-glow transition-all duration-300 transform hover:scale-105 cyber-border">
+                Register as Worker
+              </Link>
+              <Link href="/business" className="bg-gradient-secondary text-white px-10 py-5 text-xl font-bold font-display rounded-lg hover:neon-glow-blue transition-all duration-300 transform hover:scale-105 cyber-border">
+                Business Solutions
+              </Link>
+            </div>
           </div>
-        </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
-            <h3 className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">500+</h3>
-            <p className="text-gray-600 dark:text-gray-300">Active Workers</p>
+          {/* Quick Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div className="cyber-border bg-dark-surface p-8 text-center transform hover:scale-105 transition-all duration-300">
+              <h3 className="text-5xl font-black font-tech text-neon-orange mb-4">500+</h3>
+              <p className="text-gray-300 font-display font-semibold text-lg">Active Workers</p>
+            </div>
+            <div className="cyber-border bg-dark-surface p-8 text-center transform hover:scale-105 transition-all duration-300">
+              <h3 className="text-5xl font-black font-tech text-neon-blue mb-4">150+</h3>
+              <p className="text-gray-300 font-display font-semibold text-lg">Trusted Businesses</p>
+            </div>
+            <div className="cyber-border bg-dark-surface p-8 text-center transform hover:scale-105 transition-all duration-300">
+              <h3 className="text-5xl font-black font-tech text-neon-green mb-4">2,000+</h3>
+              <p className="text-gray-300 font-display font-semibold text-lg">Jobs Completed</p>
+            </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
-            <h3 className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">150+</h3>
-            <p className="text-gray-600 dark:text-gray-300">Trusted Businesses</p>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg text-center">
-            <h3 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">2,000+</h3>
-            <p className="text-gray-600 dark:text-gray-300">Jobs Completed</p>
-          </div>
-        </div>
 
-        {/* Services */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Riggers</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Certified riggers for complex lifting operations, structural work, and equipment installation.
-            </p>
-            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-              <li>• Basic to Advanced Rigging</li>
-              <li>• Structural Steel</li>
-              <li>• Heavy Machinery</li>
-            </ul>
+          {/* Services */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+            <div className="cyber-border bg-dark-surface p-10 transform hover:scale-105 transition-all duration-300 group">
+              <h3 className="text-2xl font-black font-display text-neon-orange mb-6 group-hover:text-white transition-colors">RIGGERS</h3>
+              <p className="text-gray-300 mb-6 font-display leading-relaxed">
+                Certified riggers for complex lifting operations, structural work, and equipment installation.
+              </p>
+              <ul className="text-gray-400 space-y-2 font-display">
+                <li className="flex items-center"><span className="text-neon-orange mr-2">▸</span> Basic to Advanced Rigging</li>
+                <li className="flex items-center"><span className="text-neon-orange mr-2">▸</span> Structural Steel</li>
+                <li className="flex items-center"><span className="text-neon-orange mr-2">▸</span> Heavy Machinery</li>
+              </ul>
+            </div>
+            <div className="cyber-border bg-dark-surface p-10 transform hover:scale-105 transition-all duration-300 group">
+              <h3 className="text-2xl font-black font-display text-neon-blue mb-6 group-hover:text-white transition-colors">DOGGERS</h3>
+              <p className="text-gray-300 mb-6 font-display leading-relaxed">
+                Experienced doggers for safe lifting operations and crane coordination.
+              </p>
+              <ul className="text-gray-400 space-y-2 font-display">
+                <li className="flex items-center"><span className="text-neon-blue mr-2">▸</span> Crane Coordination</li>
+                <li className="flex items-center"><span className="text-neon-blue mr-2">▸</span> Load Assessment</li>
+                <li className="flex items-center"><span className="text-neon-blue mr-2">▸</span> Safety Supervision</li>
+              </ul>
+            </div>
+            <div className="cyber-border bg-dark-surface p-10 transform hover:scale-105 transition-all duration-300 group">
+              <h3 className="text-2xl font-black font-display text-neon-green mb-6 group-hover:text-white transition-colors">CRANE OPS</h3>
+              <p className="text-gray-300 mb-6 font-display leading-relaxed">
+                Licensed crane operators for all types of mobile and tower cranes.
+              </p>
+              <ul className="text-gray-400 space-y-2 font-display">
+                <li className="flex items-center"><span className="text-neon-green mr-2">▸</span> Mobile Cranes</li>
+                <li className="flex items-center"><span className="text-neon-green mr-2">▸</span> Tower Cranes</li>
+                <li className="flex items-center"><span className="text-neon-green mr-2">▸</span> All Terrain Cranes</li>
+              </ul>
+            </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Doggers</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Experienced doggers for safe lifting operations and crane coordination.
-            </p>
-            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-              <li>• Crane Coordination</li>
-              <li>• Load Assessment</li>
-              <li>• Safety Supervision</li>
-            </ul>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Crane Operators</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Licensed crane operators for all types of mobile and tower cranes.
-            </p>
-            <ul className="text-sm text-gray-500 dark:text-gray-400 space-y-1">
-              <li>• Mobile Cranes</li>
-              <li>• Tower Cranes</li>
-              <li>• All Terrain Cranes</li>
-            </ul>
-          </div>
-        </div>
 
-        {/* ChaseWhiteRabbit NGO Section */}
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-8 rounded-xl shadow-lg mb-16">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">Supporting ChaseWhiteRabbit NGO</h3>
-            <p className="text-lg mb-6 max-w-3xl mx-auto">
-              Every job posted and placement made through RiggerConnect helps fund important community work. 
-              Our platform is owned and operated by industry professionals, reinvesting profits into meaningful causes.
-            </p>
-            <Link href="/about" className="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Learn More About Our Mission
-            </Link>
+          {/* ChaseWhiteRabbit NGO Section */}
+          <div className="bg-gradient-secondary cyber-border p-12 mb-20 relative overflow-hidden">
+            <div className="text-center relative z-10">
+              <h3 className="text-4xl font-black font-display text-white mb-6">SUPPORTING CHASEWHITERABBIT NGO</h3>
+              <p className="text-xl text-gray-200 mb-8 max-w-4xl mx-auto font-display leading-relaxed">
+                Every job posted and placement made through RiggerConnect helps fund important community work. 
+                Our platform is owned and operated by industry professionals, <span className="text-neon-green font-bold">reinvesting profits into meaningful causes</span>.
+              </p>
+              <Link href="/about" className="bg-white text-black px-8 py-4 text-lg font-bold font-display rounded-lg hover:neon-glow transition-all duration-300 transform hover:scale-105">
+                Learn More About Our Mission
+              </Link>
+            </div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-radial from-white/10 to-transparent rounded-full transform translate-x-32 -translate-y-32"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-radial from-white/10 to-transparent rounded-full transform -translate-x-24 translate-y-24"></div>
           </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-bold mb-4 text-orange-400">RiggerConnect WA</h3>
-              <p className="text-gray-300 text-sm">
-                Connecting Western Australia's construction, mining, and resources industry with skilled rigging professionals.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">For Workers</h4>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li><Link href="/register" className="hover:text-orange-400">Register</Link></li>
-                <li><Link href="/jobs" className="hover:text-orange-400">Browse Jobs</Link></li>
-                <li><Link href="/profile" className="hover:text-orange-400">Manage Profile</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">For Businesses</h4>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li><Link href="/business" className="hover:text-orange-400">Business Account</Link></li>
-                <li><Link href="/post-job" className="hover:text-orange-400">Post Job</Link></li>
-                <li><Link href="/pricing" className="hover:text-orange-400">Pricing</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-sm text-gray-300">
-                <li><Link href="/safety" className="hover:text-orange-400">Safety Standards</Link></li>
-                <li><Link href="/compliance" className="hover:text-orange-400">Compliance</Link></li>
-                <li><Link href="/contact" className="hover:text-orange-400">Contact Us</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-            <p>© 2024 RiggerConnect WA. Supporting ChaseWhiteRabbit NGO. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

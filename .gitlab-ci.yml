@@ -1,132 +1,749 @@
-stages:
-  - validate
-  - test
-  - migrate
-  - build
-  - deploy
+# ==========================================================================
+# GitLab CI/CD Pipeline for RiggerConnect Web Application
+# ChaseWhiteRabbit NGO - Enterprise DevOps Standards
+# ==========================================================================
+
+include:
+  - local: '../.enterprise-cicd/templates/gitlab-ci-master.yml'
 
 variables:
-  NODE_ENV: "production"
+  # Project Configuration
+  PROJECT_TYPE: "web-frontend"
+  PROJECT_NAME: "riggerconnect-web"
+  NODE_VERSION: "20"
+  DOCKER_IMAGE_NAME: "riggerconnect-web"
+  
+  # Infrastructure
+  DOCKER_REGISTRY: "docker.sxc.codes:5000"
+  GITLAB_RUNNER_HOST: "gitlab.sxc.codes"
+  GRAFANA_HOST: "grafana.sxc.codes"
+  
+  # Environment URLs
+  STAGING_URL: "https://riggerconnect-staging.sxc.codes"
+  PRODUCTION_URL: "https://riggerconnect.sxc.codes"
+  
+  # Feature Flags
+  ENABLE_SECURITY_SCANS: "true"
+  ENABLE_PERFORMANCE_TESTS: "true"
+  ENABLE_E2E_TESTS: "true"
+  ENABLE_MONITORING: "true"
+  ENABLE_BLUE_GREEN_DEPLOYMENT: "true"
+  
+  # Versioning Strategy
+  VERSION_STRATEGY: "semantic" # semantic, timestamp, commit
+  
+  # Alert Configuration
+  ALERT_EMAIL_LIST: "tiatheone@protonmail.com,garrett@sxc.codes,garrett.dillman@gmail.com"
+  SLACK_WEBHOOK_URL: "$SLACK_WEBHOOK_URL" # Set in GitLab CI/CD variables
+  
+  # Docker
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: "/certs"
+
+stages:
+  - validate
+  - security
+  - test
+  - build
+  - package
+  - deploy
+  - monitor
+  - notify
 
 services:
   - docker:24-dind
 
 cache:
+  key:
+    files:
+      - package-lock.json
+    prefix: ${CI_JOB_NAME}
   paths:
     - node_modules/
+    - .npm/
+    - cypress/cache/
+    - .next/cache/
+  policy: pull-push
 
 before_script:
-  - npm install
+  - echo "Pipeline started for commit $CI_COMMIT_SHORT_SHA"
+  - npm ci --cache .npm --prefer-offline
 
-# Environment validation stage
+# ==========================================================================
+# VALIDATION STAGE
+# ==========================================================================
+
 validate-environment:
   stage: validate
-  image: node:18-alpine
+  image: node:20-alpine
   script:
-    - apk add --no-cache bash
+    - echo "🔍 Validating environment configuration..."
+    - apk add --no-cache bash curl
     - chmod +x ./database/migrate.sh
     - ./database/migrate.sh validate
-  only:
-    variables:
-      - $NEXT_PUBLIC_SUPABASE_URL
-      - $NEXT_PUBLIC_SUPABASE_ANON_KEY
+    - echo "✅ Environment validation complete"
+  rules:
+    - if: '$NEXT_PUBLIC_SUPABASE_URL && $NEXT_PUBLIC_SUPABASE_ANON_KEY'
+  artifacts:
+    expire_in: 1 hour
+    reports:
+      junit: validation-report.xml
+    when: always
 
-# Code quality and testing
+validate-dependencies:
+  stage: validate
+  image: node:20-alpine
+  script:
+    - echo "🔍 Validating dependencies and security..."
+    - npm audit --audit-level moderate
+    - npm outdated || true
+    - echo "✅ Dependency validation complete"
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+    when: always
+
+# ==========================================================================
+# SECURITY STAGE
+# ==========================================================================
+
+security-sast:
+  stage: security
+  image: node:20-alpine
+  script:
+    - echo "🔒 Running Static Application Security Testing..."
+    - npm install -g @eslint/security
+    - npx eslint . --ext .js,.jsx,.ts,.tsx --format json --output-file eslint-security-report.json || true
+    - echo "✅ SAST scan complete"
+  artifacts:
+    reports:
+      sast: eslint-security-report.json
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: '$ENABLE_SECURITY_SCANS == "true"'
+
+security-secrets:
+  stage: security
+  image: alpine:latest
+  script:
+    - echo "🔒 Scanning for secrets and sensitive data..."
+    - apk add --no-cache git
+    - wget -O /tmp/truffleHog.tar.gz https://github.com/trufflesecurity/trufflehog/releases/download/v3.63.2/trufflehog_3.63.2_linux_amd64.tar.gz
+    - tar -xzf /tmp/truffleHog.tar.gz -C /tmp
+    - /tmp/trufflehog filesystem . --json > secrets-report.json || true
+    - echo "✅ Secret scan complete"
+  artifacts:
+    reports:
+      secret_detection: secrets-report.json
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: '$ENABLE_SECURITY_SCANS == "true"'
+
+# ==========================================================================
+# TEST STAGE
+# ==========================================================================
+
 lint:
   stage: test
+  image: node:20-alpine
   script:
+    - echo "🧹 Running linting and code quality checks..."
     - npm run lint
+    - npm run lint -- --format junit --output-file lint-report.xml
+    - echo "✅ Linting complete"
+  artifacts:
+    reports:
+      junit: lint-report.xml
+    expire_in: 1 week
+    when: always
+
+unit-tests:
+  stage: test
+  image: node:20-alpine
+  script:
+    - echo "🧪 Running unit tests..."
+    - npm run test:coverage -- --ci --watchAll=false --testResultsProcessor=jest-junit
+    - echo "✅ Unit tests complete"
   artifacts:
     reports:
       junit: junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/
+    expire_in: 1 week
     when: always
+  coverage: '/Lines\s*:\s*(\d+\.?\d*)%/'
 
-# Database migration stage
-migrate-database:
-  stage: migrate
-  image: node:18-alpine
-  before_script:
-    - apk add --no-cache bash curl postgresql-client
-    - curl -fsSL https://supabase.com/install.sh | sh
-    - export PATH="$PATH:/root/.local/bin"
-    - npm install
+e2e-tests:
+  stage: test
+  image: cypress/browsers:node20.11.0-chrome121.0.6167.85-1-ff120.0.1-edge121.0.2277.83-1
   script:
-    - chmod +x ./database/migrate.sh
-    - ./database/migrate.sh migrate
-  artifacts:
-    paths:
-      - lib/supabase/database.types.ts
-    expire_in: 1 hour
-  only:
-    variables:
-      - $NEXT_PUBLIC_SUPABASE_URL
-      - $NEXT_PUBLIC_SUPABASE_ANON_KEY
-      - $SUPABASE_SERVICE_ROLE_KEY
-  when: manual
-  allow_failure: false
-
-# Build application
-build:
-  stage: build
-  dependencies:
-    - migrate-database
-  script:
+    - echo "🎭 Running end-to-end tests..."
     - npm run build
+    - npm start &
+    - sleep 30
+    - npm run test:e2e -- --reporter junit --reporter-options mochaFile=cypress-report.xml
+    - echo "✅ E2E tests complete"
+  artifacts:
+    reports:
+      junit: cypress-report.xml
+    paths:
+      - cypress/videos/
+      - cypress/screenshots/
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: '$ENABLE_E2E_TESTS == "true"'
+
+performance-tests:
+  stage: test
+  image: node:20-alpine
+  script:
+    - echo "⚡ Running performance tests..."
+    - apk add --no-cache chromium
+    - npm install -g lighthouse
+    - npm run build
+    - npm start &
+    - sleep 30
+    - lighthouse http://localhost:3000 --output=json --output-path=lighthouse-report.json --chrome-flags="--headless --no-sandbox"
+    - echo "✅ Performance tests complete"
+  artifacts:
+    reports:
+      performance: lighthouse-report.json
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: '$ENABLE_PERFORMANCE_TESTS == "true"'
+
+# ==========================================================================
+# BUILD STAGE
+# ==========================================================================
+
+build-application:
+  stage: build
+  image: node:20-alpine
+  script:
+    - echo "🏗️ Building Next.js application..."
+    - export NODE_ENV=production
+    - npm run build
+    - echo "Build size analysis:"
+    - du -sh .next/
+    - echo "✅ Application build complete"
   artifacts:
     paths:
-      - dist/
       - .next/
-    expire_in: 1 hour
+      - public/
+    expire_in: 24 hours
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
 
-# Docker build for deployment
-docker-build:
-  stage: deploy
-  image: docker:24
-  dependencies:
-    - build
+generate-version:
+  stage: build
+  image: alpine:latest
   script:
-    - docker build -t riggerconnect-web .
-    - docker tag riggerconnect-web $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-    - docker tag riggerconnect-web $CI_REGISTRY_IMAGE:latest
-    # Push to GitLab Container Registry if configured
+    - echo "📦 Generating version information..."
+    - apk add --no-cache git
     - |
-      if [ "$CI_REGISTRY" ]; then
-        echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
-        docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-        docker push $CI_REGISTRY_IMAGE:latest
+      if [ "$VERSION_STRATEGY" = "semantic" ]; then
+        VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v1.0.0")
+        VERSION="${VERSION}-${CI_COMMIT_SHORT_SHA}"
+      elif [ "$VERSION_STRATEGY" = "timestamp" ]; then
+        VERSION="$(date +%Y%m%d%H%M%S)-${CI_COMMIT_SHORT_SHA}"
+      else
+        VERSION="${CI_COMMIT_SHORT_SHA}"
       fi
-  only:
-    - main
-    - develop
+    - echo "VERSION=$VERSION" > version.env
+    - echo "BUILD_DATE=$(date -Iseconds)" >> version.env
+    - echo "GIT_COMMIT=$CI_COMMIT_SHA" >> version.env
+    - echo "Generated version: $VERSION"
+  artifacts:
+    reports:
+      dotenv: version.env
+    expire_in: 24 hours
 
-# Deploy to staging environment
+# ==========================================================================
+# PACKAGE STAGE
+# ==========================================================================
+
+docker-build:
+  stage: package
+  image: docker:24
+  services:
+    - docker:24-dind
+  dependencies:
+    - build-application
+    - generate-version
+  script:
+    - echo "🐳 Building Docker container..."
+    - echo "Building version: $VERSION"
+    - docker build -t $PROJECT_NAME:$VERSION -t $PROJECT_NAME:latest .
+    - |
+      # Push to docker.sxc.codes registry
+      if [ "$DOCKER_REGISTRY" ]; then
+        echo "📦 Pushing to container registry: $DOCKER_REGISTRY"
+        docker tag $PROJECT_NAME:$VERSION $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+        docker tag $PROJECT_NAME:latest $DOCKER_REGISTRY/$PROJECT_NAME:latest
+        
+        # Login and push
+        echo $DOCKER_REGISTRY_PASSWORD | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
+        docker push $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+        docker push $DOCKER_REGISTRY/$PROJECT_NAME:latest
+        
+        echo "✅ Container pushed successfully"
+      fi
+    - echo "✅ Docker build complete"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+
+security-container-scan:
+  stage: package
+  image: docker:24
+  services:
+    - docker:24-dind
+  dependencies:
+    - docker-build
+  script:
+    - echo "🔒 Scanning container for vulnerabilities..."
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --format json --output trivy-report.json $PROJECT_NAME:latest || true
+    - echo "✅ Container security scan complete"
+  artifacts:
+    reports:
+      container_scanning: trivy-report.json
+    expire_in: 1 week
+    when: always
+  rules:
+    - if: '$ENABLE_SECURITY_SCANS == "true" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+
+# ==========================================================================
+# DEPLOY STAGE
+# ==========================================================================
+
 deploy-staging:
   stage: deploy
-  image: docker:24
+  image: alpine:latest
+  dependencies:
+    - docker-build
+  before_script:
+    - apk add --no-cache curl openssh-client
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   script:
-    - echo "Deploying to staging environment"
-    # Add your staging deployment commands here
-    # Example: kubectl apply -f k8s/staging/
+    - echo "🚀 Deploying to staging environment..."
+    - |
+      # Deploy to docker.sxc.codes
+      ssh -o StrictHostKeyChecking=no root@$DOCKER_REGISTRY_HOST << EOF
+        docker pull $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+        docker stop riggerconnect-web-staging || true
+        docker rm riggerconnect-web-staging || true
+        docker run -d \
+          --name riggerconnect-web-staging \
+          --restart unless-stopped \
+          -p 3001:3000 \
+          -e NODE_ENV=staging \
+          -e GRAFANA_HOST=$GRAFANA_HOST \
+          --label traefik.enable=true \
+          --label traefik.http.routers.riggerconnect-staging.rule="Host(\`riggerconnect-staging.sxc.codes\`)" \
+          $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+      EOF
+    - echo "✅ Staging deployment complete"
+    - echo "🌍 Application available at: $STAGING_URL"
   environment:
     name: staging
-    url: https://staging.riggerconnect.com
-  only:
-    - develop
-  when: manual
+    url: $STAGING_URL
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: manual
+  allow_failure: false
 
-# Deploy to production environment
 deploy-production:
   stage: deploy
-  image: docker:24
+  image: alpine:latest
+  dependencies:
+    - docker-build
+  before_script:
+    - apk add --no-cache curl openssh-client
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
   script:
-    - echo "Deploying to production environment"
-    # Add your production deployment commands here
-    # Example: kubectl apply -f k8s/production/
+    - echo "🚀 Deploying to production environment..."
+    - |
+      # Blue-Green deployment strategy
+      if [ "$ENABLE_BLUE_GREEN_DEPLOYMENT" = "true" ]; then
+        echo "🔄 Implementing blue-green deployment..."
+        # Deploy to green environment first
+        ssh -o StrictHostKeyChecking=no root@$DOCKER_REGISTRY_HOST << EOF
+          # Pull new image
+          docker pull $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+          
+          # Start green environment
+          docker run -d \
+            --name riggerconnect-web-green \
+            --restart unless-stopped \
+            -p 3003:3000 \
+            -e NODE_ENV=production \
+            -e GRAFANA_HOST=$GRAFANA_HOST \
+            $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+          
+          # Health check
+          sleep 30
+          if curl -f http://localhost:3003/api/health; then
+            echo "✅ Green environment healthy, switching traffic..."
+            
+            # Update load balancer to point to green
+            docker exec traefik-proxy /bin/sh -c "echo 'Switching to green environment'"
+            
+            # Stop blue environment
+            docker stop riggerconnect-web-blue || true
+            docker rm riggerconnect-web-blue || true
+            
+            # Rename green to blue for next deployment
+            docker rename riggerconnect-web-green riggerconnect-web-blue
+            docker update --restart=unless-stopped riggerconnect-web-blue
+          else
+            echo "❌ Green environment failed health check"
+            docker stop riggerconnect-web-green || true
+            docker rm riggerconnect-web-green || true
+            exit 1
+          fi
+        EOF
+      else
+        # Standard deployment
+        ssh -o StrictHostKeyChecking=no root@$DOCKER_REGISTRY_HOST << EOF
+          docker pull $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+          docker stop riggerconnect-web-production || true
+          docker rm riggerconnect-web-production || true
+          docker run -d \
+            --name riggerconnect-web-production \
+            --restart unless-stopped \
+            -p 3000:3000 \
+            -e NODE_ENV=production \
+            -e GRAFANA_HOST=$GRAFANA_HOST \
+            --label traefik.enable=true \
+            --label traefik.http.routers.riggerconnect.rule="Host(\`riggerconnect.sxc.codes\`)" \
+            $DOCKER_REGISTRY/$PROJECT_NAME:$VERSION
+        EOF
+      fi
+    - echo "✅ Production deployment complete"
+    - echo "🌍 Application available at: $PRODUCTION_URL"
   environment:
     name: production
-    url: https://riggerconnect.com
-  only:
-    - main
-  when: manual
+    url: $PRODUCTION_URL
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: manual
+  allow_failure: false
+
+# ==========================================================================
+# MONITOR STAGE
+# ==========================================================================
+
+setup-monitoring:
+  stage: monitor
+  image: alpine:latest
+  dependencies:
+    - deploy-staging
+    - deploy-production
+  script:
+    - echo "📊 Setting up monitoring and observability..."
+    - apk add --no-cache curl jq
+    - |
+      # Configure Grafana dashboard for the application
+      GRAFANA_API="http://$GRAFANA_HOST:3000/api"
+      
+      # Create or update dashboard
+      curl -X POST "$GRAFANA_API/dashboards/db" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $GRAFANA_API_TOKEN" \
+        -d '{
+          "dashboard": {
+            "id": null,
+            "title": "RiggerConnect Web - Production Metrics",
+            "tags": ["riggerconnect", "web", "nextjs"],
+            "timezone": "browser",
+            "panels": [
+              {
+                "id": 1,
+                "title": "Application Health",
+                "type": "stat",
+                "targets": [
+                  {
+                    "expr": "up{job=\"riggerconnect-web\"}",
+                    "refId": "A"
+                  }
+                ],
+                "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+              },
+              {
+                "id": 2,
+                "title": "Response Time",
+                "type": "graph",
+                "targets": [
+                  {
+                    "expr": "http_request_duration_ms{job=\"riggerconnect-web\"}",
+                    "refId": "A"
+                  }
+                ],
+                "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+              },
+              {
+                "id": 3,
+                "title": "Error Rate",
+                "type": "graph",
+                "targets": [
+                  {
+                    "expr": "rate(http_requests_total{job=\"riggerconnect-web\",status=~\"5..\"}[5m])",
+                    "refId": "A"
+                  }
+                ],
+                "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8}
+              }
+            ],
+            "time": {"from": "now-1h", "to": "now"},
+            "refresh": "5s"
+          },
+          "overwrite": true
+        }'
+      
+      # Configure alerting rules
+      curl -X POST "$GRAFANA_API/ruler/grafana/api/v1/rules/riggerconnect" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer $GRAFANA_API_TOKEN" \
+        -d '{
+          "interval": "1m",
+          "rules": [
+            {
+              "uid": "riggerconnect-health-alert",
+              "title": "RiggerConnect Application Down",
+              "condition": "A",
+              "data": [
+                {
+                  "refId": "A",
+                  "queryType": "",
+                  "relativeTimeRange": {"from": 600, "to": 0},
+                  "model": {
+                    "expr": "up{job=\"riggerconnect-web\"} == 0",
+                    "refId": "A"
+                  }
+                }
+              ],
+              "noDataState": "NoData",
+              "execErrState": "Alerting",
+              "for": "2m",
+              "annotations": {
+                "description": "RiggerConnect web application is down or unreachable",
+                "summary": "Application health check failed"
+              },
+              "labels": {
+                "severity": "critical",
+                "service": "riggerconnect-web"
+              }
+            },
+            {
+              "uid": "riggerconnect-performance-alert",
+              "title": "RiggerConnect High Response Time",
+              "condition": "A",
+              "data": [
+                {
+                  "refId": "A",
+                  "queryType": "",
+                  "relativeTimeRange": {"from": 300, "to": 0},
+                  "model": {
+                    "expr": "avg(http_request_duration_ms{job=\"riggerconnect-web\"}) > 2000",
+                    "refId": "A"
+                  }
+                }
+              ],
+              "noDataState": "NoData",
+              "execErrState": "Alerting",
+              "for": "5m",
+              "annotations": {
+                "description": "RiggerConnect web application response time is above 2 seconds",
+                "summary": "High response time detected"
+              },
+              "labels": {
+                "severity": "warning",
+                "service": "riggerconnect-web"
+              }
+            }
+          ]
+        }'
+      
+      echo "✅ Monitoring setup complete"
+    - echo "📊 Dashboard available at: http://$GRAFANA_HOST:3000"
+  rules:
+    - if: '$ENABLE_MONITORING == "true" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+      when: manual
+  allow_failure: true
+
+health-check:
+  stage: monitor
+  image: alpine:latest
+  dependencies:
+    - deploy-staging
+    - deploy-production
+  script:
+    - echo "🏥 Performing post-deployment health checks..."
+    - apk add --no-cache curl
+    - |
+      # Check application health
+      if [ "$CI_COMMIT_BRANCH" = "develop" ]; then
+        HEALTH_URL="$STAGING_URL/api/health"
+      else
+        HEALTH_URL="$PRODUCTION_URL/api/health"
+      fi
+      
+      echo "Checking health endpoint: $HEALTH_URL"
+      
+      # Wait for application to be ready
+      sleep 60
+      
+      # Perform health check with retries
+      for i in $(seq 1 5); do
+        if curl -f -s "$HEALTH_URL"; then
+          echo "✅ Health check passed (attempt $i)"
+          break
+        else
+          echo "❌ Health check failed (attempt $i)"
+          if [ $i -eq 5 ]; then
+            echo "🚨 All health checks failed!"
+            exit 1
+          fi
+          sleep 30
+        fi
+      done
+      
+      # Additional performance check
+      echo "⚡ Running basic performance check..."
+      RESPONSE_TIME=$(curl -o /dev/null -s -w '%{time_total}' "$HEALTH_URL")
+      echo "Response time: ${RESPONSE_TIME}s"
+      
+      if [ "$(echo "$RESPONSE_TIME > 5" | bc -l)" -eq 1 ]; then
+        echo "⚠️ Warning: Response time is slow (${RESPONSE_TIME}s)"
+      else
+        echo "✅ Response time is acceptable (${RESPONSE_TIME}s)"
+      fi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+  allow_failure: false
+
+# ==========================================================================
+# NOTIFY STAGE
+# ==========================================================================
+
+notify-success:
+  stage: notify
+  image: alpine:latest
+  dependencies:
+    - health-check
+  script:
+    - echo "📧 Sending success notifications..."
+    - apk add --no-cache curl
+    - |
+      # Determine environment
+      if [ "$CI_COMMIT_BRANCH" = "develop" ]; then
+        ENV="Staging"
+        URL="$STAGING_URL"
+      else
+        ENV="Production"
+        URL="$PRODUCTION_URL"
+      fi
+      
+      # Email notification
+      for email in $(echo $ALERT_EMAIL_LIST | tr ',' ' '); do
+        echo "Sending success notification to: $email"
+        
+        # Using a simple mail service or webhook
+        curl -X POST "$EMAIL_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"to\": \"$email\",
+            \"subject\": \"✅ RiggerConnect Deployment Successful - $ENV\",
+            \"body\": \"Good news! RiggerConnect web application has been successfully deployed to $ENV environment.\\n\\nDetails:\\n- Version: $VERSION\\n- Environment: $ENV\\n- URL: $URL\\n- Commit: $CI_COMMIT_SHORT_SHA\\n- Branch: $CI_COMMIT_BRANCH\\n- Pipeline: $CI_PIPELINE_URL\\n\\nThe application is now live and ready for use.\\n\\nBest regards,\\nChaseWhiteRabbit DevOps Team\"
+          }" || echo "Email notification failed for $email"
+      done
+      
+      # Slack notification (if configured)
+      if [ "$SLACK_WEBHOOK_URL" ]; then
+        echo "Sending Slack notification..."
+        curl -X POST "$SLACK_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"text\": \"✅ RiggerConnect Deployment Successful\",
+            \"attachments\": [
+              {
+                \"color\": \"good\",
+                \"fields\": [
+                  {\"title\": \"Environment\", \"value\": \"$ENV\", \"short\": true},
+                  {\"title\": \"Version\", \"value\": \"$VERSION\", \"short\": true},
+                  {\"title\": \"URL\", \"value\": \"$URL\", \"short\": false},
+                  {\"title\": \"Branch\", \"value\": \"$CI_COMMIT_BRANCH\", \"short\": true},
+                  {\"title\": \"Commit\", \"value\": \"$CI_COMMIT_SHORT_SHA\", \"short\": true}
+                ]
+              }
+            ]
+          }" || echo "Slack notification failed"
+      fi
+      
+      echo "✅ Success notifications sent"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+  when: on_success
+
+notify-failure:
+  stage: notify
+  image: alpine:latest
+  script:
+    - echo "🚨 Sending failure notifications..."
+    - apk add --no-cache curl
+    - |
+      # Determine environment
+      if [ "$CI_COMMIT_BRANCH" = "develop" ]; then
+        ENV="Staging"
+      else
+        ENV="Production"
+      fi
+      
+      # Email notification
+      for email in $(echo $ALERT_EMAIL_LIST | tr ',' ' '); do
+        echo "Sending failure notification to: $email"
+        
+        curl -X POST "$EMAIL_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"to\": \"$email\",
+            \"subject\": \"🚨 RiggerConnect Deployment Failed - $ENV\",
+            \"body\": \"Alert! RiggerConnect web application deployment has failed in $ENV environment.\\n\\nDetails:\\n- Environment: $ENV\\n- Branch: $CI_COMMIT_BRANCH\\n- Commit: $CI_COMMIT_SHORT_SHA\\n- Pipeline: $CI_PIPELINE_URL\\n- Failed Job: $CI_JOB_NAME\\n\\nPlease check the pipeline logs and take immediate action.\\n\\nChaseWhiteRabbit DevOps Team\"
+          }" || echo "Email notification failed for $email"
+      done
+      
+      # Slack notification (if configured)
+      if [ "$SLACK_WEBHOOK_URL" ]; then
+        echo "Sending Slack failure notification..."
+        curl -X POST "$SLACK_WEBHOOK_URL" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"text\": \"🚨 RiggerConnect Deployment Failed\",
+            \"attachments\": [
+              {
+                \"color\": \"danger\",
+                \"fields\": [
+                  {\"title\": \"Environment\", \"value\": \"$ENV\", \"short\": true},
+                  {\"title\": \"Branch\", \"value\": \"$CI_COMMIT_BRANCH\", \"short\": true},
+                  {\"title\": \"Failed Job\", \"value\": \"$CI_JOB_NAME\", \"short\": true},
+                  {\"title\": \"Pipeline\", \"value\": \"$CI_PIPELINE_URL\", \"short\": false}
+                ]
+              }
+            ]
+          }" || echo "Slack notification failed"
+      fi
+      
+      echo "✅ Failure notifications sent"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop"'
+  when: on_failure

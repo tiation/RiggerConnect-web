@@ -36,9 +36,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
   
-  const supabase = createClientSupabase()
+  // Only create supabase client on the client side
+  const [supabase, setSupabase] = useState<ReturnType<typeof createClientSupabase> | null>(null)
+  
+  useEffect(() => {
+    try {
+      setSupabase(createClientSupabase())
+    } catch (error) {
+      console.warn('Failed to initialize Supabase client:', error)
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
+    if (!supabase) return
+    
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -66,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase])
 
   const fetchUserProfile = async (userId: string) => {
     try {
