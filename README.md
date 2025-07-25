@@ -229,7 +229,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 - **Helm Registry**: helm.sxc.codes (145.223.21.248) - Kubernetes deployment manager
 - **Monitoring**: grafana.sxc.codes (153.92.214.1) - Observability and alerts
 - **Database**: supabase.sxc.codes (93.127.167.157) - Backend as a Service
-- **Notification Alerts**: Configured for tiatheone@protonmail.com, garrett@sxc.codes, garrett.dillman@gmail.com
+- **Notification Alerts**: Configured for tiatheone@protonmail.com, jackjonas95@gmail.com
 
 ## 📚 Documentation
 
