@@ -577,37 +577,42 @@ npm run deploy:production
 - 🐦 **Twitter**: [@ChaseWhiteRabbitNGO](https://twitter.com/ChaseWhiteRabbitNGO)
 - 💼 **LinkedIn**: [ChaseWhiteRabbit NGO](https://linkedin.com/company/chasewhiterabbit-ngo)
 
-## 📧 Contact Information
 
-### Primary Maintainers
+## 🤝 Project Team & Purpose
 
-For inquiries related to the Rigger ecosystem, please contact our primary maintainers:
+This project is part of a broader suite of repositories aimed at supporting the **transient rigging and heavy lifting industry** in Western Australia and beyond.
 
-- **Jack Jonas**: [jackjonas95@gmail.com](mailto:jackjonas95@gmail.com)
-  - **Role**: Rigger Crane Operator 6 Heavy Vehicle Mechanic, based in Karatha, WA.
+🔗 **Related Repositories**:
 
-- **Tia Astor**: [tiatheone@protonmail.com](mailto:tiatheone@protonmail.com)
-  - **Role**: Swedish Software Developer with ChaseWhiteRabbit NGO, creating technology to support the rigging industry.
+* [`RiggerConnect-web`](https://github.com/ChaseWhiteRabbit/RiggerConnect-web) - Professional networking platform for construction workers
+* [`RiggerConnect-android`](https://github.com/ChaseWhiteRabbit/RiggerConnect-android) - Native Android mobile networking application
+* [`RiggerConnect-ios`](https://github.com/ChaseWhiteRabbit/RiggerConnect-ios) - Native iOS mobile networking application
+* [`RiggerConnect-capacitor`](https://github.com/ChaseWhiteRabbit/RiggerConnect-capacitor) - Cross-platform mobile app built with Ionic Capacitor
+* [`RiggerHub-web`](https://github.com/ChaseWhiteRabbit/RiggerHub-web) - Operations management hub for business users
+* [`RiggerHub-android`](https://github.com/ChaseWhiteRabbit/RiggerHub-android) - Native Android operations management application
+* [`RiggerHub-ios`](https://github.com/ChaseWhiteRabbit/RiggerHub-ios) - Native iOS operations management application
+* [`RiggerShared`](https://github.com/ChaseWhiteRabbit/RiggerShared) - Shared libraries, components, and utilities
+* [`RiggerBackend`](https://github.com/ChaseWhiteRabbit/RiggerBackend) - Core backend services and APIs for the Rigger ecosystem
 
-These maintainers oversee the development and coordination of the entire Rigger platform ecosystem, including RiggerConnect, RiggerHub, RiggerBackend, and RiggerShared repositories.
+📬 **Contact**:
+For questions, ideas, or collaboration inquiries, please reach out to:
 
-### Special Mentions
+* **Jack Jonas** – [jackjonas95@gmail.com](mailto:jackjonas95@gmail.com)
+* **Tia** – [tiatheone@protonmail.com](mailto:tiatheone@protonmail.com)
 
-- **Jack Jonas**: 
-  - As a Rigger Crane Operator 6 Heavy Vehicle Mechanic, Jack plays a critical role in shaping the practical needs of this project. His experience ensures that the technology meets the demanding needs of the riggers on the ground.
+---
 
-- **Tia Astor**:
-  - Tia's work with ChaseWhiteRabbit NGO is driven by a commitment to ethical technology that supports valuable blue-collar work. Her passion fuels the development of tools that are as empowering as they are innovative.
+### 🙌 About the Founders
 
-### Project Vision
+**Jack Jonas** is a seasoned rigger, crane operator, and heavy vehicle mechanic based in Karratha, Western Australia. His firsthand experience in the field shapes the practical backbone of this platform.
 
-This project aims to revolutionize the rigging industry by providing state-of-the-art tools that empower workers like Jack. At the same time, it supports Tia's humanitarian goals through ChaseWhiteRabbit, ensuring the SaaS aligns with broader societal contributions.
+**Tia** is a Swedish software developer and founder of the NGO **ChaseWhiteRabbit**, which is dedicated to building inclusive, systemic solutions to complex challenges.
 
-### Licensing 6 Compliance
+Together, they created this SaaS platform to:
 
-- **GPL v3 License** ensures that all improvements remain freely accessible and ethically governed.
-- Adhere to **Enterprise Standards** to ensure robust security 6 compliance.
-- Integration with **CI/CD Pipelines** guarantees high-quality continuous deployment across all platforms.
+* Help connect riggers, doggers, and crane operators to real work opportunities.
+* Support better logistics, transparency, and compliance in the field.
+* Fund and sustain the good work being done by **ChaseWhiteRabbit** in disadvantaged communities.
 
 ### Cross-Linking the Rigger Ecosystem
 
