@@ -116,47 +116,278 @@ This is a [Next.js](https://nextjs.org) project built with the modern **App Rout
 - **Turbopack** - Ultra-fast bundler for development
 - **Supabase** - Backend-as-a-Service with PostgreSQL
 
-## 🚀 Local Development
+## 🚀 Quick Start
 
-Follow the steps below to set up the development environment for RiggerConnect-web:
+### Prerequisites
 
-1. **Clone the repository**:
+**System Requirements:**
+- **Node.js**: 18.0.0 or higher (LTS recommended)
+- **npm**: 9.0.0 or higher (or yarn 1.22.0+)
+- **Git**: Latest version for version control
 
-   ```bash
-   git clone git@github.com:chasewhiterabbit/riggerconnect-web.git
-   cd riggerconnect-web
-   ```
+**Development Tools:**
+- **Code Editor**: VS Code (recommended) with React/TypeScript extensions
+- **Browser**: Chrome, Firefox, Safari, or Edge with dev tools
+- **API Testing**: Browser dev tools or separate API client
 
-2. **Install dependencies**:
+**Verify Installation:**
+```bash
+# Check Node.js version
+node --version  # Should be 18.0.0+
 
-   ```bash
-   npm install
-   ```
+# Check npm version
+npm --version   # Should be 9.0.0+
 
-3. **Set up environment**:
+# Check git version
+git --version   # Should be latest
+```
 
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your configuration
-   ```
+### Installation & Setup
 
-4. **Run the development server**:
+#### 1. Clone the Repository
+```bash
+# Using SSH (recommended)
+git clone git@github.com:tiation/RiggerConnect-web.git
+cd RiggerConnect-web
 
-   ```bash
-   npm run dev
-   ```
+# Or using HTTPS
+git clone https://github.com/tiation/RiggerConnect-web.git
+cd RiggerConnect-web
+```
 
-5. **Run tests**:
+#### 2. Install Dependencies
+```bash
+# Install project dependencies
+npm install
 
-   ```bash
-   npm test
-   ```
+# Or using Yarn (if preferred)
+yarn install
 
-6. **Security audit**:
+# Install global dependencies (optional)
+npm install -g typescript @next/cli
+```
 
-   ```bash
-   npm run security:audit
-   ```
+#### 3. Environment Configuration
+```bash
+# Copy environment template
+cp .env.example .env.local
+
+# Edit .env.local with your configuration
+# Required environment variables:
+```
+
+**Essential Environment Variables:**
+```bash
+# App Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NODE_ENV=development
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-key
+
+# Authentication
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret-min-32-chars
+
+# External Services
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your-google-maps-key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your-stripe-key
+STRIPE_SECRET_KEY=sk_test_your-stripe-secret
+
+# Analytics (optional)
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=GA_MEASUREMENT_ID
+NEXT_PUBLIC_SENTRY_DSN=your-sentry-dsn
+
+# Email Configuration (for contact forms)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-app-password
+```
+
+#### 4. Start Development Server
+```bash
+# Start development server with hot reload
+npm run dev
+
+# Server will start at http://localhost:3000
+# API routes available at http://localhost:3000/api/*
+```
+
+### Development Workflow
+
+#### Daily Development Commands
+```bash
+# Start development server
+npm run dev
+
+# Start with Turbopack (faster bundling)
+npm run dev:turbo
+
+# Type checking
+npm run type-check
+npm run type-check:watch  # Watch mode
+
+# Code quality
+npm run lint              # ESLint
+npm run lint:fix          # Auto-fix ESLint issues
+npm run format            # Prettier formatting
+npm run format:check      # Check formatting
+
+# Testing
+npm test                  # Run all tests
+npm run test:watch        # Watch mode
+npm run test:coverage     # Coverage report
+npm run test:e2e          # End-to-end tests with Playwright
+
+# Build and deployment
+npm run build             # Production build
+npm run start             # Start production server
+npm run preview           # Preview production build
+```
+
+#### Production Build
+```bash
+# Build for production
+npm run build
+
+# Test production build locally
+npm run start
+
+# Analyze bundle size
+npm run analyze
+
+# Export static build (if configured)
+npm run export
+```
+
+### Testing Your Setup
+
+#### Verify Development Environment
+```bash
+# Check if development server is running
+curl http://localhost:3000
+
+# Expected: HTML response with Next.js app
+
+# Test API routes
+curl http://localhost:3000/api/health
+
+# Expected: {"status":"ok","timestamp":"..."}
+```
+
+#### Browser Testing
+1. **Open Development Server**: http://localhost:3000
+2. **Check Console**: No errors in browser dev tools
+3. **Test Navigation**: All routes should load properly
+4. **Mobile View**: Test responsive design on different screen sizes
+5. **Network Tab**: Verify API calls are working
+
+### Common Development Tasks
+
+#### Creating New Components
+```bash
+# Generate new page component
+npm run generate:page AboutPage
+
+# Generate new UI component
+npm run generate:component Button
+
+# Generate new API route
+npm run generate:api users
+```
+
+#### Database & Backend Integration
+```bash
+# Generate Prisma client (if using Prisma)
+npm run db:generate
+
+# Run database migrations
+npm run db:migrate
+
+# Seed database with sample data
+npm run db:seed
+
+# Reset database (development only)
+npm run db:reset
+```
+
+### Troubleshooting Setup Issues
+
+#### Port Already in Use
+```bash
+# Find process using port 3000
+lsof -ti:3000
+
+# Kill process if needed
+kill -9 $(lsof -ti:3000)
+
+# Or use different port
+PORT=3001 npm run dev
+```
+
+#### Node.js Version Issues
+```bash
+# Using nvm to manage Node.js versions
+nvm install 18
+nvm use 18
+nvm alias default 18
+
+# Verify version
+node --version
+```
+
+#### Environment Variables Not Loading
+```bash
+# Check if .env.local exists
+ls -la .env*
+
+# Verify environment variables are loaded
+echo $NEXT_PUBLIC_API_URL
+
+# Restart development server after changes
+npm run dev
+```
+
+#### Build Issues
+```bash
+# Clear Next.js cache
+rm -rf .next
+
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+
+# Check for TypeScript errors
+npm run type-check
+```
+
+### Development Tools Integration
+
+#### VS Code Setup
+Recommended VS Code extensions:
+```json
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-eslint",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense"
+  ]
+}
+```
+
+#### Browser Extensions
+Helpful browser extensions for development:
+- **React Developer Tools**: Debug React components
+- **Redux DevTools**: Debug state management
+- **Lighthouse**: Performance auditing
+- **WAVE**: Accessibility testing
 
 ## 🎯 DevOps Processes
 
@@ -353,9 +584,43 @@ npm run deploy:production
 For inquiries related to the Rigger ecosystem, please contact our primary maintainers:
 
 - **Jack Jonas**: [jackjonas95@gmail.com](mailto:jackjonas95@gmail.com)
+  - **Role**: Rigger Crane Operator 6 Heavy Vehicle Mechanic, based in Karatha, WA.
+
 - **Tia Astor**: [tiatheone@protonmail.com](mailto:tiatheone@protonmail.com)
+  - **Role**: Swedish Software Developer with ChaseWhiteRabbit NGO, creating technology to support the rigging industry.
 
 These maintainers oversee the development and coordination of the entire Rigger platform ecosystem, including RiggerConnect, RiggerHub, RiggerBackend, and RiggerShared repositories.
+
+### Special Mentions
+
+- **Jack Jonas**: 
+  - As a Rigger Crane Operator 6 Heavy Vehicle Mechanic, Jack plays a critical role in shaping the practical needs of this project. His experience ensures that the technology meets the demanding needs of the riggers on the ground.
+
+- **Tia Astor**:
+  - Tia's work with ChaseWhiteRabbit NGO is driven by a commitment to ethical technology that supports valuable blue-collar work. Her passion fuels the development of tools that are as empowering as they are innovative.
+
+### Project Vision
+
+This project aims to revolutionize the rigging industry by providing state-of-the-art tools that empower workers like Jack. At the same time, it supports Tia's humanitarian goals through ChaseWhiteRabbit, ensuring the SaaS aligns with broader societal contributions.
+
+### Licensing 6 Compliance
+
+- **GPL v3 License** ensures that all improvements remain freely accessible and ethically governed.
+- Adhere to **Enterprise Standards** to ensure robust security 6 compliance.
+- Integration with **CI/CD Pipelines** guarantees high-quality continuous deployment across all platforms.
+
+### Cross-Linking the Rigger Ecosystem
+
+- For an overview of all related projects and repositories, please visit:
+  - [RiggerConnect-android](../RiggerConnect-android/)
+  - [RiggerConnect-ios](../RiggerConnect-ios/)
+  - [RiggerHub-web](../RiggerHub-web/)
+  - [RiggerHub-android](../RiggerHub-android/)
+  - [RiggerHub-ios](../RiggerHub-ios/)
+  - [RiggerShared](../RiggerShared/)
+  - [RiggerBackend](../RiggerBackend/)
+
+These links provide easy access to all components of the Rigger ecosystem and facilitate a comprehensive understanding of interconnected parts.
 
 ## 📜 License
 
