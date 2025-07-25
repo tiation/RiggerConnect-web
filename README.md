@@ -64,13 +64,15 @@ RiggerConnect is a cutting-edge social networking and career development platfor
 
 | Repository | Platform | Description | GitHub SSH URL |
 |------------|----------|-------------|----------------|
-| **RiggerBackend** | API | Core backend services and APIs | `git@github.com:tiation/RiggerBackend.git` |
-| **RiggerConnect-android** | Android | Mobile networking app | `git@github.com:tiation/RiggerConnect-android.git` |
-| **RiggerConnect-ios** | iOS | Mobile networking app | `git@github.com:tiation/RiggerConnect-ios.git` |
-| **RiggerHub-web** | Web | Operations management hub | `git@github.com:tiation/RiggerHub-web.git` |
-| **RiggerHub-android** | Android | Mobile operations hub | `git@github.com:tiation/RiggerHub-android.git` |
-| **RiggerHub-ios** | iOS | Mobile operations hub | `git@github.com:tiation/RiggerHub-ios.git` |
-| **RiggerShared** | Multi-platform | Shared libraries and components | `git@github.com:tiation/RiggerShared.git` |
+| **RiggerBackend** | API/Backend | Core backend services and APIs for the Rigger ecosystem | `git@github.com:tiation/RiggerBackend.git` |
+| **RiggerConnect-web** | Web | Professional networking platform for construction workers | `git@github.com:tiation/RiggerConnect-web.git` |
+| **RiggerConnect-android** | Android | Native Android mobile networking application | `git@github.com:tiation/RiggerConnect-android.git` |
+| **RiggerConnect-capacitor** | Cross-platform | Cross-platform mobile app built with Ionic Capacitor | `git@github.com:tiation/RiggerConnect-capacitor.git` |
+| **RiggerConnect-ios** | iOS | Native iOS mobile networking application | `git@github.com:tiation/RiggerConnect-ios.git` |
+| **RiggerHub-web** | Web | Operations management hub for business users | `git@github.com:tiation/RiggerHub-web.git` |
+| **RiggerHub-android** | Android | Native Android operations management application | `git@github.com:tiation/RiggerHub-android.git` |
+| **RiggerHub-ios** | iOS | Native iOS operations management application | `git@github.com:tiation/RiggerHub-ios.git` |
+| **RiggerShared** | Multi-platform | Shared libraries, components, and utilities | `git@github.com:tiation/RiggerShared.git` |
 
 ### Enterprise Integration Architecture
 
@@ -338,14 +340,22 @@ npm run deploy:production
 - 🔒 **Security Issues**: security@chasewhiterabbit.org
 - ⚖️ **Ethics Concerns**: ethics@chasewhiterabbit.org
 
-#### For Rigger Ecosystem inquiries, contact:
-- **Primary Project Contacts**: jackjonas95@gmail.com, tiatheone@protonmail.com
-
 ### ChaseWhiteRabbit NGO
 - 🌐 **Website**: [chasewhiterabbit.org](https://chasewhiterabbit.org)
 - 📧 **Contact**: info@chasewhiterabbit.org
 - 🐦 **Twitter**: [@ChaseWhiteRabbitNGO](https://twitter.com/ChaseWhiteRabbitNGO)
 - 💼 **LinkedIn**: [ChaseWhiteRabbit NGO](https://linkedin.com/company/chasewhiterabbit-ngo)
+
+## 📧 Contact Information
+
+### Primary Maintainers
+
+For inquiries related to the Rigger ecosystem, please contact our primary maintainers:
+
+- **Jack Jonas**: [jackjonas95@gmail.com](mailto:jackjonas95@gmail.com)
+- **Tia Astor**: [tiatheone@protonmail.com](mailto:tiatheone@protonmail.com)
+
+These maintainers oversee the development and coordination of the entire Rigger platform ecosystem, including RiggerConnect, RiggerHub, RiggerBackend, and RiggerShared repositories.
 
 ## 📜 License
 
