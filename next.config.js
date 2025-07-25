@@ -8,8 +8,12 @@ const nextConfig = {
   },
   // Add experimental features for better Netlify support
   experimental: {
-    serverActions: true
-  }
+    serverActions: {
+      enabled: true
+    }
+  },
+  // Exclude the React app from Next.js build
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js']
 }
 
 module.exports = nextConfig

@@ -1,0 +1,35 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2025 RiggerConnect - ChaseWhiteRabbit NGO Initiative
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Built by Jack Jonas (WA rigger) & Tia (dev, ChaseWhiteRabbit NGO) to serve riggers 
+and fund social impact through a smart, practical SaaS for the heavy lifting industry.
+
+Contact Information:
+- Jack Jonas: jackjonas95@gmail.com (Lead Architect & DevOps Engineer)
+- Tia: tiatheone@protonmail.com (Principal Developer & Security Lead)
+
+This project is part of the Rigger Project ecosystem supporting the ChaseWhiteRabbit NGO's 
+mission to create positive social impact through ethical technology.
+
+Infrastructure:
+- Backend Services: supabase.sxc.codes
+- CI/CD & Deployment: docker.sxc.codes
+- Monitoring: grafana.sxc.codes
+
+For more information about the ChaseWhiteRabbit NGO and our mission to empower 
+communities through ethical technology, please contact the development team.

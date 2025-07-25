@@ -35,24 +35,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [supabaseError, setSupabaseError] = useState<string | null>(null)
   
-  const supabase = createClientSupabase()
+  let supabase: any = null
+  
+  try {
+    supabase = createClientSupabase()
+  } catch (error) {
+    console.warn('Supabase initialization failed:', error)
+    setSupabaseError('Database connection not available. Using offline mode.')
+    setLoading(false)
+  }
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false)
+      return
+    }
+
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       setSession(session)
       setUser(session?.user ?? null)
       if (session?.user) {
         fetchUserProfile(session.user.id)
       }
       setLoading(false)
+    }).catch((error: any) => {
+      console.error('Error getting session:', error)
+      setLoading(false)
     })
 
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event: string, session: Session | null) => {
       setSession(session)
       setUser(session?.user ?? null)
       
@@ -88,6 +105,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) return { error: new Error('Database connection not available') }
+    
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -96,6 +115,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signUp = async (email: string, password: string, userData?: any) => {
+    if (!supabase) return { error: new Error('Database connection not available') }
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -114,11 +135,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signOut = async () => {
+    if (!supabase) return
     await supabase.auth.signOut()
   }
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     if (!user) return { error: new Error('No user logged in') }
+    if (!supabase) return { error: new Error('Database connection not available') }
 
     const { error } = await supabase
       .from('user_profiles')

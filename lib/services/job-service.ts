@@ -1,4 +1,5 @@
-import { createClientSupabase, createServerSupabase } from '../supabase/client'
+import { createClientSupabase } from '../supabase/client'
+import { createServerSupabase } from '../supabase/server'
 import { Database } from '../supabase/database.types'
 
 type Job = Database['public']['Tables']['jobs']['Row']

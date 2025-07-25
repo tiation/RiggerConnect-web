@@ -93,14 +93,59 @@ This document provides comprehensive details on deploying the Rigger Ecosystem a
 - Conduct recovery drills routinely.
 - Review recovery point objectives (RPO) and recovery time objectives (RTO).
 
+## Deployment to docker.sxc.codes
+
+### Quick Deployment
+```bash
+# SSH to docker.sxc.codes and run deployment script
+ssh root@docker.sxc.codes 
+./deploy-riggerconnect.sh
+```
+
+### Using Local Deployment Script (Recommended)
+```bash
+# Run deployment from local machine with full validation
+./deploy-riggerconnect.sh deploy
+
+# Check deployment status
+./deploy-riggerconnect.sh status
+
+# View application logs
+./deploy-riggerconnect.sh logs
+
+# Rollback if needed
+./deploy-riggerconnect.sh rollback
+```
+
+### Security Hardening Checklist
+- ✅ Environment variables validation implemented
+- ✅ No hardcoded secrets in source code
+- ✅ Proper .gitignore configuration for sensitive files
+- ✅ SSH key-based authentication for deployment
+- ✅ Container security with non-root user
+- ✅ Log rotation and centralized logging
+
 ## Monitoring and Logging
 
 ### Grafana Dashboard
-- Access via `grafana.sxc.codes`
-- Monitor performance metrics, application health, and alerts.
+- **Access URL**: [https://grafana.sxc.codes](https://grafana.sxc.codes)
+- **Server**: grafana.sxc.codes (153.92.214.1)
+- Monitor performance metrics, application health, and alerts
+- Available dashboards:
+  - RiggerConnect Application Metrics: `https://grafana.sxc.codes/d/riggerconnect-app`
+  - Infrastructure Overview: `https://grafana.sxc.codes/d/infrastructure`
+  - Docker Container Metrics: `https://grafana.sxc.codes/d/docker-containers`
+  - Database Performance: `https://grafana.sxc.codes/d/supabase-db`
 
-### ELK Stack
-- Use ElasticSearch for aggregated logs and alerts.
+### ElasticSearch Logging
+- **Access URL**: [https://elastic.sxc.codes](https://elastic.sxc.codes)
+- **Server**: elastic.sxc.codes (145.223.22.14)
+- **Kibana Access**: https://elastic.sxc.codes:5601
+- Centralized log aggregation and indexing (ELK stack)
+- Automated log forwarding from Docker containers
+- Security event monitoring and alerting
+
+**Detailed monitoring setup**: See [docs/monitoring/README.md](../monitoring/README.md)
 
 ## Security Best Practices
 - Enable HTTPS for all endpoints.

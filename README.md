@@ -5,6 +5,7 @@
 ### **A ChaseWhiteRabbit NGO Initiative**
 *Ethical Technology for Blue-Collar Excellence*
 
+[![GitLab CI/CD](https://gitlab.sxc.codes/tiation/RiggerConnect-web/badges/main/pipeline.svg)](https://gitlab.sxc.codes/tiation/RiggerConnect-web/-/pipelines)
 [![Build Status](https://github.com/chasewhiterabbit/riggerconnect-web/workflows/CI/badge.svg)](https://github.com/chasewhiterabbit/riggerconnect-web/actions)
 [![Security Rating](https://img.shields.io/badge/security-A+-brightgreen)](docs/security/)
 [![Ethics Compliance](https://img.shields.io/badge/ethics-compliant-blue)](docs/ethics/)

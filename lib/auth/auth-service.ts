@@ -1,4 +1,5 @@
-import { createClientSupabase, createServerSupabase, createServiceSupabase } from '../supabase/client'
+import { createClientSupabase } from '../supabase/client'
+import { createServerSupabase, createServiceSupabase } from '../supabase/server'
 import { Database } from '../supabase/database.types'
 
 export type UserRole = 'rigger' | 'employer' | 'administrator'
