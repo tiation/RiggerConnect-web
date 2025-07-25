@@ -338,6 +338,9 @@ npm run deploy:production
 - 🔒 **Security Issues**: security@chasewhiterabbit.org
 - ⚖️ **Ethics Concerns**: ethics@chasewhiterabbit.org
 
+#### For Rigger Ecosystem inquiries, contact:
+- **Primary Project Contacts**: jackjonas95@gmail.com, tiatheone@protonmail.com
+
 ### ChaseWhiteRabbit NGO
 - 🌐 **Website**: [chasewhiterabbit.org](https://chasewhiterabbit.org)
 - 📧 **Contact**: info@chasewhiterabbit.org
